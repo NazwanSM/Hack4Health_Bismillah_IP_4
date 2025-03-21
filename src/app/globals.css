@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+:root {
+  /* Definisi Warna Teks */
+  --color-primary-text: #333333;       /* Hitam gelap untuk teks utama */
+  --color-secondary-text: #666666;     /* Abu-abu untuk teks sekunder */
+  --color-light-text: #999999;         /* Abu-abu muda untuk teks ringan */
+  --color-accent-text: #4A90E2;        /* Biru untuk teks aksen */
+  --color-danger-text: #D9534F;        /* Merah untuk teks peringatan */
+  --color-success-text: #5CB85C;       /* Hijau untuk teks sukses */
+}

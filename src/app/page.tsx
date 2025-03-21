@@ -1,103 +1,196 @@
-import Image from "next/image";
+// src/app/page.tsx
+"use client";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Navbar from './components/Navbar';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 3;
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Auto-rotate banner slides
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="max-w-md mx-auto bg-[#FFFDF5] min-h-screen pb-20">
+      {/* Header */}
+      <header className="p-4 flex justify-between items-center">
+        <div>
+          <p className="text-neutral-400 text-sm">Selamat pagi!</p>
+          <h2 className="font-bold text-black">Babu</h2>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div className="w-10 h-10 rounded-full overflow-hidden">
+          <Image 
+            src="/avatar.jpg" 
+            alt="User profile"
+            width={40}
+            height={40}
+            className="object-cover"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </header>
+
+      {/* Banner */}
+      <div className="relative bg-[#E7F1A8] p-4 mx-4 rounded-lg">
+        <div className="flex justify-between items-center">
+          <div className="max-w-[60%]">
+            <h2 className="text-2xl font-bold mb-2 text-neutral-950">Darurat? Kami Siap Membantu!</h2>
+            <p className="text-sm text-neutral-950">
+              Jangan panik! Gunakan tombol darurat untuk mendapatkan pertolongan cepat.
+            </p>
+          </div>
+          <div className="w-[120px] h-[120px] relative">
+            <Image
+              src="/ambulance.png"
+              alt="Ambulance"
+              width={120}
+              height={120}
+              className="object-contain"
+            />
+          </div>
+        </div>
+        
+        {/* Slide Indicators */}
+        <div className="flex justify-center mt-4 gap-2">
+          {[...Array(totalSlides)].map((_, index) => (
+            <div 
+              key={index}
+              className={`h-2 rounded-full ${
+                index === currentSlide ? 'w-6 bg-gray-500' : 'w-2 bg-gray-300'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Categories */}
+      <section className="mt-6 px-4">
+        <h3 className="text-xl font-bold mb-4">Kategori</h3>
+        <div className="grid grid-cols-3 gap-2">
+          <Link href="/riwayat-penyakit" className="flex flex-col items-center">
+            <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
+              <div className="relative w-8 h-8">
+                <Image
+                  src="/icons/medical-history.png"
+                  alt="Riwayat Penyakit"
+                  layout="fill"
+                />
+              </div>
+            </div>
+            <span className="text-center text-xs font-medium text-neutral-950">Riwayat Penyakit</span>
+          </Link>
+          
+          <Link href="/pengingat-obat" className="flex flex-col items-center">
+            <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
+              <div className="relative w-8 h-8">
+                <Image
+                  src="/icons/medication.png"
+                  alt="Pengingat Obat"
+                  layout="fill"
+                />
+              </div>
+            </div>
+            <span className="text-center text-xs font-medium text-neutral-950">Pengingat Obat</span>
+          </Link>
+          
+          <Link href="/koleksi" className="flex flex-col items-center">
+            <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
+              <div className="relative w-8 h-8">
+                <Image
+                  src="/icons/bookmark.png"
+                  alt="Koleksi Saya"
+                  layout="fill"
+                />
+              </div>
+            </div>
+            <span className="text-center text-xs font-medium text-neutral-950">Koleksi Saya</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* Nearby Hospitals */}
+      <section className="mt-6 px-4">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-neutral-950">Rumah Sakit Terdekat</h3>
+          <Link href="/rumah-sakit" className="text-sm font-medium">
+            Semua &gt;
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-2 border border-gray-100">
+          <div className="flex gap-3">
+            <div className="w-20 h-20 rounded-md overflow-hidden">
+              <Image
+                src="/hospital.jpg"
+                alt="Santo Borromeush Hospital"
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center">
+                <div className="bg-blue-100 text-blue-800 text-xs font-medium px-1 rounded">
+                  Emergency Department
+                </div>
+              </div>
+              <h4 className="font-bold mt-1 text-neutral-950">Santo Borromeush Hospital</h4>
+              <div className="flex items-center text-xs text-green-600 mt-1">
+                <span className="w-3 h-3 rounded-full mr-1">⏱</span>
+                <span>24 jam</span>
+              </div>
+              <p className="text-xs text-gray-600 mt-1">
+                Jl. Ir. H. Juanda No.100, Lebakgede, Kecamatan Coblong, Kota Bandung...
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Articles */}
+      <section className="mt-6 px-4 mb-20">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl text-neutral-950 font-bold">Artikel Terbaru</h3>
+          <Link href="/artikel" className="text-sm font-medium">
+            Semua &gt;
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-2 border border-gray-100">
+          <div className="flex gap-3">
+            <div className="w-20 h-20 rounded-md overflow-hidden">
+              <Image
+                src="/article.jpg"
+                alt="Medical Article"
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-bold text-neutral-950">Cara Mengatasi Kecemasan di Tempat Kerja</h4>
+              <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                Tips dan trik mengatasi kecemasan saat bekerja agar produktivitas tetap terjaga
+              </p>
+              <div className="flex items-center text-xs text-gray-500 mt-2">
+                <span>22 November 2024</span>
+                <span className="mx-2">•</span>
+                <span>5 menit baca</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Navigation Bar */}
+      <Navbar />
     </div>
   );
 }
