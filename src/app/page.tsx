@@ -11,7 +11,6 @@ import { useAuth } from './components/AuthProvider';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import PageTransition from './components/PageTransition';
 
-/*************  ✨ Codeium Command 🌟  *************/
 export default function Home() {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -21,14 +20,21 @@ export default function Home() {
   const { user } = useAuth();
   const featuredArticles = articles.slice(0, 3);
 
-  // Auto-rotate banner slides
   useEffect(() => {
+    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    if (!hasVisitedBefore) {
+      localStorage.setItem('hasVisitedBefore', 'true');
+      router.push('/welcome');
+      return;
+    }
+  
+    // Set up the timer for slide rotation if not redirecting
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides);
     }, 5000);
-
+  
     return () => clearInterval(timer);
-  }, []);
+  }, [router, totalSlides]);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -69,7 +75,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Banner */}
       <div className="relative bg-[#E7F1A8] p-4 mx-4 rounded-lg">
         <div className="flex justify-between items-center">
           <div className="max-w-[60%]">
@@ -89,7 +94,6 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Slide Indicators */}
         <div className="flex justify-center mt-4 gap-2">
           {[...Array(totalSlides)].map((_, index) => (
             <div 
@@ -102,7 +106,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Categories */}
       <section className="mt-6 px-4">
         <h3 className="text-xl font-bold mb-4 text-black">Kategori</h3>
         <div className="grid grid-cols-3 gap-2">
@@ -165,7 +168,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Nearby Hospitals */}
       <section className="mt-6 px-4">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-neutral-950">Rumah Sakit Terdekat</h3>
@@ -209,7 +211,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Latest Articles */}
       <section className="mt-6 px-4">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-neutral-950">Artikel Kesehatan</h3>
@@ -254,11 +255,8 @@ export default function Home() {
         </div>
       </section>
 
-
-      {/* Navigation Bar */}
     </PageTransition>
     <Navbar />
     </div>
   );
 }
-/******  fd92615c-d4b0-42bf-ae62-9c6f0b7ebfa2  *******/
