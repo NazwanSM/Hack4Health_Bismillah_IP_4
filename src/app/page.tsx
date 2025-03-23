@@ -10,6 +10,7 @@ import { useAuth } from './components/AuthProvider';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import PageTransition from './components/PageTransition';
 
+/*************  ✨ Codeium Command 🌟  *************/
 export default function Home() {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -243,3 +244,4 @@ export default function Home() {
     </div>
   );
 }
+/******  fd92615c-d4b0-42bf-ae62-9c6f0b7ebfa2  *******/
