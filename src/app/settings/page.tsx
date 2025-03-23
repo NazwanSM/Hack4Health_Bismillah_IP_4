@@ -33,7 +33,6 @@ export default function SettingsPage() {
     return (
         <div className="flex flex-col min-h-screen bg-[#fffdf5]">
         <PageTransition>
-        {/* Header with back button */}
         <div className="flex items-center px-4 my-2 relative mt-10">
             <button 
             onClick={handleBack}
@@ -44,12 +43,9 @@ export default function SettingsPage() {
             <h1 className="text-xl font-bold text-center w-full text-black">Pengaturan</h1>
         </div>
 
-        {/* Settings Sections */}
         <div className="px-4 mt-8">
-            {/* Umum Section */}
             <h2 className="text-lg font-bold mb-2 text-black">Umum</h2>
             
-            {/* Dark Mode Toggle */}
             <div className="flex items-center justify-between py-3 border-b border-gray-200">
             <div className="flex items-center">
                 <div className="w-10 h-10 bg-[#364C84] rounded-full flex items-center justify-center">
@@ -71,7 +67,6 @@ export default function SettingsPage() {
             </label>
             </div>
             
-            {/* Notification Settings */}
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -86,8 +81,7 @@ export default function SettingsPage() {
                 <FiChevronRight className="text-gray-400" size={20} />
             </div>
             </div>
-            
-            {/* Agreement Settings */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -100,8 +94,7 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Password Settings */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -114,8 +107,7 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Address Settings */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -128,8 +120,7 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Logout Option */}
+ 
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={handleLogout}
@@ -142,11 +133,9 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Help Section */}
+
             <h2 className="text-lg font-bold mb-2 mt-6 text-black">Bantuan</h2>
-            
-            {/* Help Center */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -159,8 +148,7 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* About Us */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -173,11 +161,9 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Legal Section */}
+
             <h2 className="text-lg font-bold mb-2 mt-6 text-black">Legal</h2>
-            
-            {/* Privacy */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -190,8 +176,7 @@ export default function SettingsPage() {
             </div>
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
-            
-            {/* Security */}
+
             <div 
             className="flex items-center justify-between py-3 border-b border-gray-200 cursor-pointer"
             onClick={showDevelopmentMessage}
@@ -205,8 +190,7 @@ export default function SettingsPage() {
             <FiChevronRight className="text-gray-400" size={20} />
             </div>
         </div>
-        
-        {/* Bottom padding */}
+
         <div className="h-24"></div>
         </PageTransition>
         </div>
