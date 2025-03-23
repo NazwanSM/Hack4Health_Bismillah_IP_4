@@ -2,9 +2,9 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { WelcomeScreen } from './components/WelcomePg';
 import { checkFirstTimeUser, checkUserLoggedIn } from './utils/authUtils';
 import OfflineWrapper from './components/OfflineWrapper';
+import { AuthProvider } from './components/AuthProvider';
 
 export default function ClientLayoutWrapper({ 
     children,
@@ -24,54 +24,66 @@ export default function ClientLayoutWrapper({
     useEffect(() => {
         // Delay to ensure client-side rendering
         const timer = setTimeout(() => {
-        // Cek status pengguna saat komponen dimuat
-        const firstTimeStatus = checkFirstTimeUser();
-        const loginStatus = checkUserLoggedIn();
+            // Check user status when component loads
+            const firstTimeStatus = checkFirstTimeUser();
+            const loginStatus = checkUserLoggedIn();
 
-        setAuthStatus({
-            isFirstTime: firstTimeStatus,
-            isLoggedIn: loginStatus
-        });
-        setIsClientReady(true);
+            setAuthStatus({
+                isFirstTime: firstTimeStatus,
+                isLoggedIn: loginStatus
+            });
+            setIsClientReady(true);
 
-        // Redirect logic
-        if (!loginStatus) {
-            if (firstTimeStatus) {
-            // Jika pertama kali, arahkan ke welcome screen
-            router.replace('/welcome');
-            } else if (!['/login', '/daftar', '/welcome'].includes(pathname)) {
-            // Jika tidak login dan bukan di halaman login/signup, arahkan ke login
-            router.replace('/login');
+            // Handle routing based on auth status
+            if (pathname === '/') {
+                if (firstTimeStatus) {
+                    // First time user, redirect to welcome page
+                    router.replace('/welcome');
+                } else if (!loginStatus) {
+                    // Returning user but not logged in, redirect to login
+                    router.replace('/login');
+                }
+                // If logged in, stay on home page
             }
-        }
         }, 0);
 
         return () => clearTimeout(timer);
-    }, [pathname]);
+    }, [pathname, router]);
 
-    // Render the same content on server and client to prevent hydration mismatch
+    // Determine if the current path is a public route that doesn't require auth
+    const isPublicRoute = ['/welcome', '/login', '/daftar', '/lupa-password'].includes(pathname);
+
+    // Don't show any content until client-side code has run
+    if (!isClientReady) {
+        return (
+            <div className="flex h-screen w-full items-center justify-center bg-[#F5F5F5]">
+                <div className="text-center">Memuat...</div>
+            </div>
+        );
+    }
+
+    // Allow access to public routes
+    // For protected routes, check if user is logged in
+    if (!isPublicRoute && !authStatus.isLoggedIn) {
+        // If we're on client-side, redirect
+        if (typeof window !== 'undefined') {
+            router.replace('/login');
+        }
+        
+        // Show loading while redirecting
+        return (
+            <div className="flex h-screen w-full items-center justify-center bg-[#F5F5F5]">
+                <div className="text-center">Mengalihkan ke halaman login...</div>
+            </div>
+        );
+    }
+
     return (
-        <html lang="id">
-        <head>
-            <meta charSet="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body className={fonts}>
-            {!isClientReady ? (
-            <div>Memuat...</div>
-            ) : !authStatus.isLoggedIn ? (
-            pathname === '/welcome' ? (
-                <WelcomeScreen />
-            ) : (
-                children // Render login atau signup page
-            )
-            ) : (
+        <AuthProvider>
             <div className="max-w-md mx-auto bg-[#FFFDF5] min-h-screen relative">
                 {children}
-                <OfflineWrapper />
+                {!isPublicRoute && <OfflineWrapper />}
             </div>
-            )}
-        </body>
-        </html>
+        </AuthProvider>
     );
 }
