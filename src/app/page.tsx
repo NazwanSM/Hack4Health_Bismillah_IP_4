@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './components/Navbar';
+import hospitals from '../data/hospitals';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 3;
+  const id = "1";
+  const hospital = hospitals.find((h) => h.id === parseInt(id));
 
   // Auto-rotate banner slides
   useEffect(() => {
@@ -19,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto bg-[#FFFDF5] min-h-screen pb-20">
+    <div className="max-w-md mx-auto bg-[#fffdf5] min-h-screen pb-20">
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
         <div>
@@ -72,7 +75,7 @@ export default function Home() {
 
       {/* Categories */}
       <section className="mt-6 px-4">
-        <h3 className="text-xl font-bold mb-4">Kategori</h3>
+        <h3 className="text-xl font-bold mb-4 text-black">Kategori</h3>
         <div className="grid grid-cols-3 gap-2">
           <Link href="/riwayat-penyakit" className="flex flex-col items-center">
             <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
@@ -84,7 +87,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <span className="text-center text-xs font-medium text-neutral-950">Riwayat Penyakit</span>
+            <span className="text-center text-xs font-semibold text-neutral-950">Riwayat Penyakit</span>
           </Link>
           
           <Link href="/pengingat-obat" className="flex flex-col items-center">
@@ -97,7 +100,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <span className="text-center text-xs font-medium text-neutral-950">Pengingat Obat</span>
+            <span className="text-center text-xs font-semibold text-neutral-950">Pengingat Obat</span>
           </Link>
           
           <Link href="/koleksi" className="flex flex-col items-center">
@@ -110,7 +113,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <span className="text-center text-xs font-medium text-neutral-950">Koleksi Saya</span>
+            <span className="text-center text-xs font-semibold text-neutral-950">Koleksi Saya</span>
           </Link>
         </div>
       </section>
@@ -124,7 +127,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-2 border border-gray-100">
+        <div className="bg-[#fffdf5] rounded-lg shadow p-2 border border-gray-100">
           <div className="flex gap-3">
             <div className="w-20 h-20 rounded-md overflow-hidden">
               <Image
@@ -137,17 +140,17 @@ export default function Home() {
             </div>
             <div className="flex-1">
               <div className="flex items-center">
-                <div className="bg-blue-100 text-blue-800 text-xs font-medium px-1 rounded">
+                <div className="text-[#364c84] text-xs font-medium px-0 rounded">
                   Emergency Department
                 </div>
               </div>
-              <h4 className="font-bold mt-1 text-neutral-950">Santo Borromeush Hospital</h4>
+              <h4 className="font-bold mt-1 text-neutral-950">{hospital?.name}</h4>
               <div className="flex items-center text-xs text-green-600 mt-1">
                 <span className="w-3 h-3 rounded-full mr-1">⏱</span>
-                <span>24 jam</span>
+                <span>{hospital?.hours}</span>
               </div>
               <p className="text-xs text-gray-600 mt-1">
-                Jl. Ir. H. Juanda No.100, Lebakgede, Kecamatan Coblong, Kota Bandung...
+                {hospital?.address}
               </p>
             </div>
           </div>
@@ -163,7 +166,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-2 border border-gray-100">
+        <div className="bg-[#fffdf5] rounded-lg shadow p-2 border border-gray-100">
           <div className="flex gap-3">
             <div className="w-20 h-20 rounded-md overflow-hidden">
               <Image
