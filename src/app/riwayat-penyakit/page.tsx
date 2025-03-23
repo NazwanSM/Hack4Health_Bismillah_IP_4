@@ -268,7 +268,7 @@ export default function MedicalHistoryPage() {
                 <div 
                   key={history.id} 
                   onClick={() => handleViewDetail(history.id!)}
-                  className="w-full bg-white rounded-xl shadow-md flex items-center cursor-pointer p-3"
+                  className="w-full bg-white rounded-xl shadow-md flex items-center cursor-pointer p-3 transition-transform active:scale-97 hover:bg-gray-50"
                 >
                   <div className="flex items-start">
                     {/* Indikator warna severity - versi bola */}
@@ -299,7 +299,7 @@ export default function MedicalHistoryPage() {
             {/* Add New Condition Card */}
             <div 
               onClick={handleAddNewCondition}
-              className="w-full h-10 bg-white rounded-xl shadow-md flex items-center cursor-pointer px-4"
+              className="w-full h-10 bg-white rounded-xl shadow-md flex items-center cursor-pointer px-4 transition-transform active:scale-95 active:shadow-sm hover:bg-gray-50"
             >
               <span className="text-zinc-400 text-base font-normal font-['Nunito_Sans'] leading-10 flex-1">
                 Tambahkan riwayat penyakit
@@ -319,7 +319,7 @@ export default function MedicalHistoryPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl w-[90%] max-w-sm shadow-2xl transform transition-all">
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-lg font-bold font-['Nunito_Sans']">Tambah Riwayat Penyakit</h2>
+              <h2 className="text-lg text-black font-bold font-['Nunito_Sans']">Tambah Riwayat Penyakit</h2>
               <button 
                 onClick={() => setShowAddModal(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -334,7 +334,7 @@ export default function MedicalHistoryPage() {
               <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Nama Penyakit */}
                 <div>
-                  <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-1 font-['Nunito_Sans']">
+                  <label htmlFor="condition" className="block text-sm font-medium text-black mb-1 font-['Nunito_Sans']">
                     Nama Penyakit/Kondisi *
                   </label>
                   <input
@@ -343,7 +343,7 @@ export default function MedicalHistoryPage() {
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
                     placeholder="Contoh: Diabetes, Hipertensi, dsb."
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border text-black border-gray-300 rounded-md font-['Nunito_Sans']"
                     required
                   />
                 </div>
@@ -358,7 +358,7 @@ export default function MedicalHistoryPage() {
                     type="date"
                     value={diagnosisDate}
                     onChange={(e) => setDiagnosisDate(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border text-black border-gray-300 rounded-md font-['Nunito_Sans']"
                     required
                   />
                 </div>
@@ -372,7 +372,7 @@ export default function MedicalHistoryPage() {
                     id="severity"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value as 'ringan' | 'sedang' | 'berat')}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border text-black border-gray-300 rounded-md font-['Nunito_Sans']"
                   >
                     <option value="ringan">Ringan</option>
                     <option value="sedang">Sedang</option>
@@ -381,21 +381,21 @@ export default function MedicalHistoryPage() {
                 </div>
                 
                 <div className="pt-3 flex space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddModal(false)}
-                    className="flex-1 bg-gray-200 text-gray-800 py-2 text-sm rounded-md font-medium font-['Nunito_Sans']"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex-1 bg-[#364c84] text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400"
-                  >
-                    {isSubmitting ? 'Menyimpan...' : 'Simpan'}
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="flex-1 bg-gray-200 text-gray-800 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] transition-transform active:scale-95 hover:bg-gray-300"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 bg-[#364c84] text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400 transition-transform active:scale-95 hover:bg-[#2a3b68]"
+                >
+                  {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+                </button>
+              </div>
               </form>
             </div>
           </div>
@@ -447,45 +447,47 @@ export default function MedicalHistoryPage() {
               
               {/* Action Buttons */}
               <div className="mt-4 pt-3 border-t border-gray-200 space-y-2">
-                {selectedHistory.isActive && (
-                  <button
-                    onClick={handleMarkAsRecovered}
-                    disabled={isSubmitting}
-                    className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400"
-                  >
-                    {isSubmitting ? 'Memproses...' : 'Tandai Sudah Sembuh'}
-                  </button>
-                )}
-                
-                {!showConfirmDelete ? (
-                  <button
-                    onClick={() => setShowConfirmDelete(true)}
-                    disabled={isSubmitting}
-                    className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50"
-                  >
-                    Hapus Riwayat
-                  </button>
-                ) : (
-                  <div className="bg-red-50 p-3 rounded-md border border-red-200">
-                    <p className="text-xs text-red-800 mb-2 font-['Nunito_Sans']">Apakah Anda yakin ingin menghapus riwayat penyakit ini?</p>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={handleDelete}
-                        disabled={isSubmitting}
-                        className="flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400"
-                      >
-                        Ya, Hapus
-                      </button>
-                      <button
-                        onClick={() => setShowConfirmDelete(false)}
-                        disabled={isSubmitting}
-                        className="flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50"
-                      >
-                        Batal
-                      </button>
-                    </div>
+                {/* Tombol Tandai Sudah Sembuh */}
+              {selectedHistory.isActive && (
+                <button
+                  onClick={handleMarkAsRecovered}
+                  disabled={isSubmitting}
+                  className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400 transition-transform active:scale-95 hover:bg-green-700"
+                >
+                  {isSubmitting ? 'Memproses...' : 'Tandai Sudah Sembuh'}
+                </button>
+              )}
+
+              {/* Tombol Hapus Riwayat */}
+              {!showConfirmDelete ? (
+                <button
+                  onClick={() => setShowConfirmDelete(true)}
+                  disabled={isSubmitting}
+                  className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50 transition-transform active:scale-95 hover:bg-red-50"
+                >
+                  Hapus Riwayat
+                </button>
+              ) : (
+                <div className="bg-red-50 p-3 rounded-md border border-red-200">
+                  <p className="text-xs text-red-800 mb-2 font-['Nunito_Sans']">Apakah Anda yakin ingin menghapus riwayat penyakit ini?</p>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={handleDelete}
+                      disabled={isSubmitting}
+                      className="flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400 transition-transform active:scale-95"
+                    >
+                      Ya, Hapus
+                    </button>
+                    <button
+                      onClick={() => setShowConfirmDelete(false)}
+                      disabled={isSubmitting}
+                      className="flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50 transition-transform active:scale-95"
+                    >
+                      Batal
+                    </button>
                   </div>
-                )}
+                </div>
+              )}
               </div>
             </div>
           </div>
