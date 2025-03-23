@@ -15,13 +15,10 @@ import {
     endDate?: string; // Opsional, jika obat hanya untuk periode tertentu
     instructions?: string;
     isActive: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     createdAt?: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     updatedAt?: any;
   }
   
-  // Tambah pengingat obat baru
   export const addMedicineReminder = async (
     reminder: Omit<MedicineReminder, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<string> => {
@@ -38,8 +35,7 @@ import {
       throw error;
     }
   };
-  
-  // Dapatkan semua pengingat obat untuk user tertentu
+
   export const getUserMedicineReminders = async (userId: string): Promise<MedicineReminder[]> => {
     try {
       const q = query(
@@ -65,8 +61,7 @@ import {
       throw error;
     }
   };
-  
-  // Update pengingat obat
+
   export const updateMedicineReminder = async (
     id: string, 
     data: Partial<MedicineReminder>
@@ -82,8 +77,7 @@ import {
       throw error;
     }
   };
-  
-  // Hapus pengingat obat (soft delete)
+
   export const deactivateMedicineReminder = async (id: string): Promise<void> => {
     try {
       const reminderRef = doc(db, 'medicineReminders', id);
@@ -96,8 +90,7 @@ import {
       throw error;
     }
   };
-  
-  // Hard delete pengingat obat (jarang digunakan, lebih baik soft delete)
+
   export const deleteMedicineReminder = async (id: string): Promise<void> => {
     try {
       await deleteDoc(doc(db, 'medicineReminders', id));
