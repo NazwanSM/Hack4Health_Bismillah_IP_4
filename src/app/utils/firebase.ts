@@ -2,7 +2,6 @@ import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { Firestore, getFirestore, CollectionReference, collection as firestoreCollection } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCmJYwz7DhNcFZeIo8Olj0adQ0N_f49tkg",
   authDomain: "medimerge-e9dc8.firebaseapp.com",
@@ -13,12 +12,10 @@ const firebaseConfig = {
   measurementId: "G-TGS8GEBBMT"
 };    
 
-// Initialize Firebase
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Define collection references for easier access
 function collection(db: Firestore, collectionName: string): CollectionReference {
   return firestoreCollection(db, collectionName);
 }
