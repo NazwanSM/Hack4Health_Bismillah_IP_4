@@ -22,7 +22,6 @@ const AllHospitals = () => {
         router.push(`/detail/${id}`);
     };
 
-    // Filter hospitals based on search query
     const filteredHospitals = searchQuery 
         ? hospitalsData.filter(hospital => 
             hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -30,7 +29,6 @@ const AllHospitals = () => {
         )
         : hospitalsData;
 
-    // Group hospitals by location's domisicode
     const groupedHospitals = filteredHospitals.reduce((acc, hospital) => {
         const locationKey = hospital.domisicode || 'other';
         if (!acc[locationKey]) {
@@ -43,7 +41,6 @@ const AllHospitals = () => {
     return (
         <div className="p-4 bg-[#fffdf5] min-h-screen">
             <PageTransition>
-            {/* Header with back button */}
             <div className="flex items-center justify-center relative mb-4 mt-10">
                 <button 
                     className="absolute left-0 w-10 h-10 rounded-lg bg-[#fffdf5] shadow-md flex items-center justify-center cursor-pointer"
@@ -54,8 +51,6 @@ const AllHospitals = () => {
                 </button>
                 <h1 className="text-xl font-bold text-[#0a0a0a]">Rumah Sakit</h1>
             </div>
-            
-            {/* Location */}
             <div className="mb-2">
                 <p className="text-sm text-gray-500">Lokasi</p>
                 <div className="flex items-center">
@@ -64,8 +59,6 @@ const AllHospitals = () => {
                     <MdOutlineKeyboardArrowDown className="ml-1 text-gray-500" />
                 </div>
             </div>
-            
-            {/* Search Bar */}
             <div className="flex items-center bg-gray-100 rounded-full p-3 mb-4">
                 <FaSearch className="text-gray-400 mr-2" />
                 <input
@@ -76,11 +69,8 @@ const AllHospitals = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
-
-            {/* Hospital list grouped by location */}
             {Object.entries(groupedHospitals).map(([location, hospitalList]) => (
                 <div key={location}>
-                    {/* Optional: Display location name as header */}
                     <h2 className="text-lg font-semibold text-gray-700 mt-4 mb-2 capitalize">
                         {location}
                     </h2>
