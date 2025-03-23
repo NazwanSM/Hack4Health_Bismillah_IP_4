@@ -21,14 +21,12 @@ export default function MedicalHistoryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedHistory, setSelectedHistory] = useState<MedicalHistory | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  // Form states for add/edit - only keeping necessary fields
   const [condition, setCondition] = useState('');
   const [diagnosisDate, setDiagnosisDate] = useState('');
   const [severity, setSeverity] = useState<'ringan' | 'sedang' | 'berat'>('ringan');
@@ -38,7 +36,6 @@ export default function MedicalHistoryPage() {
       if (userId) {
         setIsLoading(true);
         try {
-          // Hanya panggil API sekali
           const histories = await getUserMedicalHistory(userId);
           setMedicalHistories(histories);
         } catch (error) {
@@ -89,7 +86,6 @@ export default function MedicalHistoryPage() {
     setIsSubmitting(true);
     
     try {
-      // Simpan data dalam format yang sederhana tanpa typecasting kompleks
       const newMedicalHistory = {
         userId,
         condition,
@@ -98,21 +94,16 @@ export default function MedicalHistoryPage() {
         isActive: true,
         updatedAt: new Date()
       };
-      
-      // Panggil fungsi untuk menambah data
       await addMedicalHistory(newMedicalHistory);
-      
-      // Refresh data setelah berhasil menyimpan
+
       if (userId) {
         const refreshedHistories = await getUserMedicalHistory(userId);
         setMedicalHistories(refreshedHistories);
       }
-      
-      // Tutup modal
+
       setShowAddModal(false);
     } catch (error) {
       console.error('Error adding medical history:', error);
-      // Tampilkan detail error untuk debugging
       if (error instanceof Error) {
         alert(`Terjadi kesalahan saat menyimpan data: ${error.message}`);
       } else {
@@ -129,12 +120,10 @@ export default function MedicalHistoryPage() {
     setIsSubmitting(true);
     try {
       await deactivateMedicalHistory(selectedHistory.id);
-      
-      // Refresh data dengan benar
+
       const refreshedHistories = await getUserMedicalHistory(userId);
-      setMedicalHistories(refreshedHistories); // Set dengan data baru
-      
-      // Close modal
+      setMedicalHistories(refreshedHistories); 
+
       setShowDetailModal(false);
       setShowConfirmDelete(false);
     } catch (error) {
@@ -150,17 +139,15 @@ export default function MedicalHistoryPage() {
     
     setIsSubmitting(true);
     try {
-      // Just update isActive to false and updatedAt
+
       await updateMedicalHistory(selectedHistory.id, {
         isActive: false,
         updatedAt: new Date()
       });
       
-      // Refresh data dengan benar
       const refreshedHistories = await getUserMedicalHistory(userId);
-      setMedicalHistories(refreshedHistories); // Set dengan data baru
-      
-      // Update local state juga
+      setMedicalHistories(refreshedHistories);
+
       setSelectedHistory({
         ...selectedHistory,
         isActive: false,
@@ -198,12 +185,12 @@ export default function MedicalHistoryPage() {
   const getSeverityColor = (severity?: string) => {
     switch (severity) {
       case 'berat':
-        return 'bg-[#f77171]'; // Merah untuk keparahan berat
+        return 'bg-[#f77171]';
       case 'sedang':
-        return 'bg-[#fde687]'; // Kuning untuk keparahan sedang
+        return 'bg-[#fde687]';
       case 'ringan':
       default:
-        return 'bg-[#88edad]'; // Hijau untuk keparahan ringan
+        return 'bg-[#88edad]';
     }
   };
 
@@ -219,7 +206,7 @@ export default function MedicalHistoryPage() {
         return 'Dalam Perawatan';
       case 'ringan':
       default:
-        return 'Aktif'; // Changed from 'Sembuh' to 'Aktif' for consistency
+        return 'Aktif';
     }
   };
 
@@ -232,9 +219,8 @@ export default function MedicalHistoryPage() {
         </div>
       </div>
 
-      {/* Header with Back Button and Title centered across entire width */}
+
       <div className="w-full px-6 h-11 flex items-center relative">
-        {/* Back button positioned absolutely */}
         <button 
           onClick={() => router.back()} 
           className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10 transition-transform active:scale-90 hover:bg-gray-50"
