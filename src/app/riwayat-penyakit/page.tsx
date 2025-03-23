@@ -13,6 +13,7 @@ import {
   updateMedicalHistory,
   deactivateMedicalHistory
 } from '../utils/medicalHistory';
+import PageTransition from '../components/PageTransition';
 
 export default function MedicalHistoryPage() {
   const { userId } = useAuth();
@@ -224,6 +225,7 @@ export default function MedicalHistoryPage() {
 
   return (
     <div className="w-full max-w-md mx-auto min-h-screen relative bg-[#fffdf5] overflow-hidden">
+      <PageTransition>
       {/* Status Bar Placeholder */}
       <div className="h-12 flex justify-between items-center px-4 py-2">
         <div className="flex items-center space-x-2">
@@ -235,13 +237,13 @@ export default function MedicalHistoryPage() {
         {/* Back button positioned absolutely */}
         <button 
           onClick={() => router.back()} 
-          className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10"
+          className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10 cursor-pointer"
         >
           <div className="w-8 h-8 flex items-center justify-center">
             <Image 
               src="/icon/navigate_before.svg" 
               alt="Back" 
-              width={16} 
+              width={30} 
               height={16} 
             />
           </div>
@@ -319,7 +321,7 @@ export default function MedicalHistoryPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl w-[90%] max-w-sm shadow-2xl transform transition-all">
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-lg font-bold font-['Nunito_Sans']">Tambah Riwayat Penyakit</h2>
+              <h2 className="text-lg font-bold font-['Nunito_Sans'] text-zinc-400">Tambah Riwayat Penyakit</h2>
               <button 
                 onClick={() => setShowAddModal(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -343,7 +345,7 @@ export default function MedicalHistoryPage() {
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
                     placeholder="Contoh: Diabetes, Hipertensi, dsb."
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
                     required
                   />
                 </div>
@@ -358,7 +360,7 @@ export default function MedicalHistoryPage() {
                     type="date"
                     value={diagnosisDate}
                     onChange={(e) => setDiagnosisDate(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
                     required
                   />
                 </div>
@@ -372,7 +374,7 @@ export default function MedicalHistoryPage() {
                     id="severity"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value as 'ringan' | 'sedang' | 'berat')}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans']"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
                   >
                     <option value="ringan">Ringan</option>
                     <option value="sedang">Sedang</option>
@@ -416,7 +418,7 @@ export default function MedicalHistoryPage() {
                 }}
                 className="text-gray-500 hover:text-gray-700"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -451,7 +453,7 @@ export default function MedicalHistoryPage() {
                   <button
                     onClick={handleMarkAsRecovered}
                     disabled={isSubmitting}
-                    className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400"
+                    className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400 cursor-pointer"
                   >
                     {isSubmitting ? 'Memproses...' : 'Tandai Sudah Sembuh'}
                   </button>
@@ -461,7 +463,7 @@ export default function MedicalHistoryPage() {
                   <button
                     onClick={() => setShowConfirmDelete(true)}
                     disabled={isSubmitting}
-                    className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50"
+                    className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50 cursor-pointer"
                   >
                     Hapus Riwayat
                   </button>
@@ -472,14 +474,14 @@ export default function MedicalHistoryPage() {
                       <button
                         onClick={handleDelete}
                         disabled={isSubmitting}
-                        className="flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400"
+                        className="cursor-pointer flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400"
                       >
                         Ya, Hapus
                       </button>
                       <button
                         onClick={() => setShowConfirmDelete(false)}
                         disabled={isSubmitting}
-                        className="flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50"
+                        className="cursor-pointer flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50"
                       >
                         Batal
                       </button>
@@ -491,6 +493,7 @@ export default function MedicalHistoryPage() {
           </div>
         </div>
       )}
+    </PageTransition>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './components/Navbar';
 import hospitals from '../data/hospitals';
+import articles from '@/data/article';
 import { useAuth } from './components/AuthProvider';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import PageTransition from './components/PageTransition';
@@ -18,6 +19,7 @@ export default function Home() {
   const id = "1";
   const hospital = hospitals.find((h) => h.id === parseInt(id));
   const { user } = useAuth();
+  const featuredArticles = articles.slice(0, 3);
 
   // Auto-rotate banner slides
   useEffect(() => {
@@ -42,6 +44,10 @@ export default function Home() {
   const handleSeeAllClick = () => {
     router.push('/all-hospitals');
   };
+
+  const handleSeeAllArticles = () => {
+    router.push('/artikel');
+  }
 
   return (
     <div className="max-w-md mx-auto bg-[#fffdf5] min-h-screen pb-20">
@@ -204,39 +210,50 @@ export default function Home() {
       </section>
 
       {/* Latest Articles */}
-      <section className="mt-6 px-4 mb-20">
+      <section className="mt-6 px-4">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl text-neutral-950 font-bold">Artikel Terbaru</h3>
-          <Link href="/artikel" className="text-sm font-medium">
-            Semua &gt;
-          </Link>
-        </div>
-
-        <div className="bg-[#fffdf5] rounded-lg shadow p-2 border border-gray-100">
-          <div className="flex gap-3">
-            <div className="w-20 h-20 rounded-md overflow-hidden">
-              <Image
-                src="/article.jpg"
-                alt="Medical Article"
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex-1">
-              <h4 className="font-bold text-neutral-950">Cara Mengatasi Kecemasan di Tempat Kerja</h4>
-              <p className="text-xs text-gray-600 mt-1 line-clamp-2">
-                Tips dan trik mengatasi kecemasan saat bekerja agar produktivitas tetap terjaga
-              </p>
-              <div className="flex items-center text-xs text-gray-500 mt-2">
-                <span>22 November 2024</span>
-                <span className="mx-2">•</span>
-                <span>5 menit baca</span>
-              </div>
-            </div>
+          <h3 className="text-xl font-bold text-neutral-950">Artikel Kesehatan</h3>
+          <div 
+            className="flex items-center text-gray-800 cursor-pointer"
+            onClick={handleSeeAllArticles}
+          >
+            <span className="mr-1">Semua</span>
+            <MdOutlineKeyboardArrowRight />
           </div>
         </div>
+        
+        <div className="space-y-4">
+          {featuredArticles.map((article) => (
+            <div 
+              key={article.id} 
+              className="bg-[#fffdf5] border border-gray-100 rounded-lg shadow-sm overflow-hidden cursor-pointer"
+              onClick={() => router.push(`/artikel/${article.id}`)}
+            >
+              <div className="flex">
+                <div className="w-1/3">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={120}
+                    height={120}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="w-2/3 p-3">
+                  <div className="flex mb-1">
+                    <span className="text-xs bg-[#E7F1A8] px-2 py-1 rounded-full text-gray-800">
+                      {article.category}
+                    </span>
+                  </div>
+                  <h4 className="font-semibold line-clamp-2 text-sm text-neutral-950">{article.title}</h4>
+                  <p className="text-xs text-gray-500 mt-1">{new Date(article.date).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
+
 
       {/* Navigation Bar */}
     </PageTransition>

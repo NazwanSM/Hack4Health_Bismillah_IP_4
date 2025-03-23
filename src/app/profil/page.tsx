@@ -41,11 +41,11 @@ export default function ProfilePage() {
     }, [user]);
 
     const handleEditProfile = () => {
-        router.push('/edit-profile');
+        router.push('/edit-profil');
     };
 
     const handleMedicalHistory = () => {
-        router.push('/medical-history');
+        router.push('/riwayat-penyakit');
     };
 
     const handleSettings = () => {
@@ -113,7 +113,7 @@ export default function ProfilePage() {
             
             <button 
             onClick={handleMedicalHistory}
-            className="flex items-center w-full py-4"
+            className="flex items-center w-full py-4 cursor-pointer"
             >
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <AiOutlineFileText size={20} className="text-gray-700" />
@@ -126,7 +126,7 @@ export default function ProfilePage() {
             
             <button 
             onClick={handleSettings}
-            className="flex items-center w-full py-4 border-b border-gray-200"
+            className="flex items-center w-full py-4 border-b border-gray-200 cursor-pointer"
             >
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <FiSettings size={20} className="text-gray-700" />
@@ -136,7 +136,7 @@ export default function ProfilePage() {
             
             <button 
             onClick={handleLogout}
-            className="flex items-center w-full py-4 text-red-500"
+            className="flex items-center w-full py-4 text-red-500 cursor-pointer"
             >
             <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                 <FiLogOut size={20} className="text-red-500" />

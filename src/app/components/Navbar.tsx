@@ -2,6 +2,7 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import PageTransition from './PageTransition';
 
 export default function Navbar() {
 const pathname = usePathname();
@@ -24,7 +25,7 @@ return (
             {/* Article */}
             <Link href="/artikel" className="flex flex-col items-center gap-1 w-14">
             <img 
-                src={pathname === '/article' ? "/icon/article.svg" : "/icon/not-article.svg"}
+                src={pathname === '/artikel' ? "/icon/article.svg" : "/icon/not-article.svg"}
                 alt="home" 
             />
             <span className={`text-xs font-semibold ${pathname === '/artikel' ? 'text-black' : 'text-gray-500'}`}>
