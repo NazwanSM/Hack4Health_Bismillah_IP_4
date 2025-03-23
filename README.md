@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MediMerge 🚑
 
-## Getting Started
+MediMerge adalah aplikasi darurat medis berbasis teknologi yang dirancang untuk mengoptimalkan akses layanan kesehatan dalam situasi darurat. Aplikasi ini menggunakan teknologi **AI Voice Activation**, **GPS Tracking**, dan **integrasi dengan rumah sakit** untuk memberikan respons cepat dan akurat dalam penanganan darurat medis. MediMerge bertujuan untuk mengurangi keterlambatan dalam mendapatkan pertolongan medis dan memastikan keselamatan pasien dalam situasi kritis. Fitur yang paling menonjol dalam MediMerge adalah pengguna dapat memanggil ambulan dengan **one tap**. 🚨
 
-First, run the development server:
+## The Team Behind MediMerge 👨‍💻👩‍💻
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Allodya Qonnita Arofa**
+- **Lidya Marthadilla**
+- **Muhammad Hasbullah Faris**
+- **Nazwan Siddqi Muttaqin**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deskripsi Aplikasi 🌟
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+MediMerge dikembangkan untuk membantu masyarakat dalam situasi darurat medis dengan menyediakan akses cepat ke layanan kesehatan. Aplikasi ini mengintegrasikan berbagai teknologi canggih yang memungkinkan pengguna untuk:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Tombol Darurat (SOS)**: Menghubungkan pengguna dengan rumah sakit terdekat atau mengirimkan notifikasi kepada nomor darurat dengan sekali tekan atau perintah suara. 
+- **Pelacakan GPS Real-Time**: Menampilkan posisi ambulans secara langsung sehingga pengguna dan keluarga dapat memantau perjalanan ambulans. 
+- **Database Riwayat Medis**: Menyimpan riwayat medis pasien yang bisa diakses oleh tenaga medis untuk memberikan perawatan yang lebih cepat dan tepat. 
+- **Pengingat Obat**: Membantu pasien dalam mengelola jadwal pengobatan dan mengurangi risiko terlewatnya dosis penting. 
 
-## Learn More
+Aplikasi ini juga terintegrasi dengan sistem rumah sakit dan layanan ambulans, sehingga memastikan pertolongan dapat diberikan dengan lebih efisien.
 
-To learn more about Next.js, take a look at the following resources:
+## Tujuan Aplikasi 🎯
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tujuan utama dari pengembangan **MediMerge** adalah untuk:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Meningkatkan kecepatan respons layanan kesehatan** melalui tombol darurat yang mudah diakses. ⏱
+2. **Mempermudah akses ke rumah sakit terdekat** dan layanan medis lainnya melalui integrasi GPS. 
+3. **Memberikan informasi medis yang akurat** kepada tenaga medis dengan database riwayat medis. 
+4. **Meningkatkan transparansi dan efektivitas pemantauan ambulans** secara real-time. 
 
-## Deploy on Vercel
+## Fitur Utama ✨
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Tombol Darurat (SOS)**: Fitur yang memungkinkan pengguna untuk menghubungi layanan medis dengan sekali tekan atau perintah suara. 
+- **Pelacakan GPS Ambulans Real-Time**: Memungkinkan rumah sakit dan keluarga pasien untuk melacak posisi ambulans. 
+- **Database Rumah Sakit**: Menyediakan informasi rumah sakit terdekat dan layanan yang tersedia. 
+- **Database Riwayat Medis**: Menyimpan dan memberikan akses ke riwayat medis pasien secara digital. 
+- **AI Voice Activation**: Fitur pengenalan suara untuk aktivasi darurat dengan perintah suara. 
+- **Pengingat Obat**: Menyediakan pengingat untuk jadwal konsumsi obat sesuai dengan resep dokter. 
