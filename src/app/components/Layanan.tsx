@@ -20,7 +20,7 @@ const Layanan = () => {
         router.push('/all-hospitals');
     };
 
-    // Added third hospital for the updated UI
+    
     const extendedHospitals = [
         ...hospitals,
         {
@@ -37,7 +37,7 @@ const Layanan = () => {
                 lng: 107.6321,
             },
         },
-        // Duplicate of the second hospital to match the UI mockup
+        
         {
             id: 4,
             name: "Klinik Utama Bumi Medika Ganesa ITB",
