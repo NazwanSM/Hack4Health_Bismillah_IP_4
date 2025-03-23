@@ -7,6 +7,7 @@ import hospitals from "../../data/hospitals";
 import Navbar from "../components/Navbar";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import PageTransition from "./PageTransition";
 
 const Layanan = () => {
     const router = useRouter();
@@ -55,6 +56,7 @@ const Layanan = () => {
 
     return (
         <div className="p-4 bg-[#fffdf5] min-h-screen">
+            <PageTransition>
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
                 <div>
@@ -158,7 +160,7 @@ const Layanan = () => {
                     </div>
                 </div>
             ))}
-            
+            </PageTransition>
             {/* Navigation Bar */}
             <Navbar />
         </div>

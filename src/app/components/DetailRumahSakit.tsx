@@ -10,6 +10,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineNavigation } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import hospitals from "../../data/hospitals";
+import PageTransition from "./PageTransition";
 
 const DetailRumahSakit = ({ id }) => {
     const router = useRouter();
@@ -28,7 +29,7 @@ const DetailRumahSakit = ({ id }) => {
         <div className="flex flex-col min-h-screen bg-[#fffdf5]">
         
         {/* Header with back button and hospital name */}
-        <div className="bg-[#364c84] p-4 pb-6 text-[#fffdf5] relative rounded-b-3xl">
+        <div className="bg-[#364c84] p-4 pb-6 text-[#fffdf5] relative rounded-b-3xl max-h-[200px]">
             <div className="mb-6">
             <button 
                 onClick={() => router.back()} 
@@ -47,7 +48,7 @@ const DetailRumahSakit = ({ id }) => {
             </div>
             </div>
         </div>
-        
+        <PageTransition>
         {/* Map Section with curved top edges to overlap header */}
         <div className="relative mt-5 mx-4 rounded-xl overflow-hidden shadow-lg">
             <div className="w-full h-56 relative">
@@ -112,6 +113,7 @@ const DetailRumahSakit = ({ id }) => {
             </p>
             </div>
         </div>
+        </PageTransition>
         </div>
     );
 };

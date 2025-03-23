@@ -6,9 +6,13 @@ import { useRouter } from "next/navigation";
 import { IoLocationOutline, IoChevronBackOutline } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import Navbar from "./Navbar";
+import hospitalsData from "@/data/hospitals";
+import { useState } from "react";
+import PageTransition from "./PageTransition";
 
 const AllHospitals = () => {
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
 
     const handleBackClick = () => {
         router.push('/layanan');
@@ -18,76 +22,27 @@ const AllHospitals = () => {
         router.push(`/detail/${id}`);
     };
 
-    // Extended hospital data with more locations
-    const hospitals = [
-        {
-            id: 1,
-            name: "Santo Borromeus Hospital",
-            address: "Jl. Ir. H. Juanda No.100, Lebakgede, Kecamatan Coblong, Kota Bandung, Jawa Barat 40132",
-            phone: "022-2552000",
-            website: "rsborromeus.com",
-            hours: "24 Jam",
-            image: "/hospital1.jpg",
-            emergency: true,
-            location: "Kecamatan Coblong",
-        },
-        {
-            id: 2,
-            name: "Rumah Sakit Santo Yusup",
-            address: "Jl. Cikutra No.7, Cikutra, Kec. Cibeunying Kidul, Kota Bandung, Jawa Barat 40124",
-            phone: "022-7208172",
-            website: "santoyusup.com",
-            hours: "24 Jam",
-            image: "/hospital3.jpg", 
-            emergency: true,
-            location: "Kec. Cibeunying Kidul",
-        },
-        {
-            id: 3,
-            name: "Klinik Utama Bumi Medika Ganesa ITB",
-            address: "Jl. Gelap Nyawang No.2, Lb. Siliwangi, Kecamatan Coblong, Kota Bandung",
-            phone: "022-2504983",
-            website: "itb.ac.id/klinik",
-            hours: "12.00-8.00 pm",
-            image: "/hospital2.jpg",
-            emergency: false,
-            location: "Kecamatan Coblong",
-        },
-        {
-            id: 4,
-            name: "Rumah Sakit Santo Yusup",
-            address: "Jl. Cikutra No.7, Cikutra, Kec. Cibeunying Kidul, Kota Bandung, Jawa Barat 40124",
-            phone: "022-7208172",
-            website: "santoyusup.com",
-            hours: "24 Jam",
-            image: "/hospital3.jpg",
-            emergency: true,
-            location: "Kec. Cibeunying Kidul",
-        },
-        {
-            id: 5,
-            name: "Rumah Sakit Santo Yusup",
-            address: "Jl. Cikutra No.7, Cikutra, Kec. Cibeunying Kidul, Kota Bandung, Jawa Barat 40124",
-            phone: "022-7208172",
-            website: "santoyusup.com",
-            hours: "24 Jam",
-            image: "/hospital3.jpg",
-            emergency: true,
-            location: "Kec. Cibeunying Kidul",
-        }
-    ];
+    // Filter hospitals based on search query
+    const filteredHospitals = searchQuery 
+        ? hospitalsData.filter(hospital => 
+            hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            hospital.address.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        : hospitalsData;
 
-    // Group hospitals by location
-    const groupedHospitals = hospitals.reduce((acc, hospital) => {
-        if (!acc[hospital.location]) {
-            acc[hospital.location] = [];
+    // Group hospitals by location's domisicode
+    const groupedHospitals = filteredHospitals.reduce((acc, hospital) => {
+        const locationKey = hospital.domisicode || 'other';
+        if (!acc[locationKey]) {
+            acc[locationKey] = [];
         }
-        acc[hospital.location].push(hospital);
+        acc[locationKey].push(hospital);
         return acc;
     }, {});
 
     return (
         <div className="p-4 bg-[#fffdf5] min-h-screen">
+            <PageTransition>
             {/* Header with back button */}
             <div className="flex items-center justify-center relative mb-4 mt-10">
                 <button 
@@ -117,15 +72,18 @@ const AllHospitals = () => {
                     type="text"
                     placeholder="Temukan Rumah Sakit"
                     className="bg-transparent outline-none flex-1 text-gray-600"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
 
             {/* Hospital list grouped by location */}
             {Object.entries(groupedHospitals).map(([location, hospitalList]) => (
                 <div key={location}>
-                    {/* Uncomment if you want to display location headers
-                    <h2 className="text-lg font-semibold text-gray-700 mt-4 mb-2">{location}</h2>
-                    */}
+                    {/* Optional: Display location name as header */}
+                    <h2 className="text-lg font-semibold text-gray-700 mt-4 mb-2 capitalize">
+                        {location}
+                    </h2>
                     
                     {hospitalList.map((hospital) => (
                         <div
@@ -162,7 +120,7 @@ const AllHospitals = () => {
                     ))}
                 </div>
             ))}
-
+            </PageTransition>
             <Navbar />
         </div>
     );

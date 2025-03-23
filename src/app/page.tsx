@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import hospitals from '../data/hospitals';
 import { useAuth } from './components/AuthProvider';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import PageTransition from './components/PageTransition';
 
 export default function Home() {
   const router = useRouter();
@@ -43,6 +44,7 @@ export default function Home() {
 
   return (
     <div className="max-w-md mx-auto bg-[#fffdf5] min-h-screen pb-20">
+      <PageTransition>
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
         <div>
@@ -236,7 +238,8 @@ export default function Home() {
       </section>
 
       {/* Navigation Bar */}
-      <Navbar />
+    </PageTransition>
+    <Navbar />
     </div>
   );
 }

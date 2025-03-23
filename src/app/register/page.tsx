@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { registerUser } from '../utils/authService';
+import PageTransition from '../components/PageTransition';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -104,6 +105,7 @@ export default function Register() {
         </button>
       </div>
 
+      <PageTransition>
       {/* Main Content */}
       <div className="flex flex-col px-6 py-6 space-y-6">
         {/* Title */}
@@ -276,6 +278,7 @@ export default function Register() {
           </Link>
         </div>
       </div>
+    </PageTransition>
     </div>
   );
 }

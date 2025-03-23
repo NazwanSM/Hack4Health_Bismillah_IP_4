@@ -8,6 +8,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { AiOutlineFileText } from 'react-icons/ai';
 import Navbar from '../components/Navbar';
+import PageTransition from '../components/PageTransition';
 
 interface UserData {
     name: string;
@@ -79,7 +80,7 @@ export default function ProfilePage() {
 
     return (
         <div className="flex flex-col min-h-screen bg-[#fffdf5]">
-
+        <PageTransition>
         {/* Profile Section */}
         <div className="flex flex-col items-center mt-20">
             <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
@@ -143,7 +144,7 @@ export default function ProfilePage() {
             <span className="ml-4 text-lg">Keluar</span>
             </button>
         </div>
-        
+        </PageTransition>
         {/* Navigation Bar */}
         <Navbar />
         </div>

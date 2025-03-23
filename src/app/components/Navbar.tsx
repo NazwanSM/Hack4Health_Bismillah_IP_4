@@ -2,7 +2,6 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import EmergencyIcon from '@/public/icons/notifications_active.svg'
 
 export default function Navbar() {
 const pathname = usePathname();

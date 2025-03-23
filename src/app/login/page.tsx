@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../components/AuthProvider';
 import { loginUser, getUserData } from '../utils/authService';
+import PageTransition from '../components/PageTransition';
 
 export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -105,6 +106,7 @@ export const LoginPage: React.FC = () => {
                 </button>
             </div>
 
+            <PageTransition>
             {/* Main Content */}
             <div className="flex flex-col px-6 py-8 mt-4 space-y-9">
                 {/* Title */}
@@ -237,6 +239,7 @@ export const LoginPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            </PageTransition>
         </div>
     );
 };
