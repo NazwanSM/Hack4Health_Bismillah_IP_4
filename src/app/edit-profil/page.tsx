@@ -24,14 +24,14 @@ export default function EditProfilePage() {
         email: ''
     });
     
-    // Format birthdate from ISO to display format (e.g., "9 Juni 1994")
+     
     const formatBirthdate = (isoDate: string): string => {
         if (!isoDate) return '';
         
         const date = new Date(isoDate);
         const day = date.getDate();
         
-        // Indonesian month names
+         
         const monthNames = [
         'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
         'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
@@ -43,7 +43,7 @@ export default function EditProfilePage() {
         return `${day} ${month} ${year}`;
     };
 
-    // Initialize profile data from user context
+     
     useEffect(() => {
         if (user) {
         setProfileData({
@@ -65,9 +65,9 @@ export default function EditProfilePage() {
     };
 
     const handleEditField = (field: string) => {
-        // In a real app, this would open a modal or navigate to a form to edit this specific field
+         
         console.log(`Editing field: ${field}`);
-        // For demo purposes, we'll just alert
+         
         alert(`Editing ${field} - This would open an edit form in a complete implementation`);
     };
 
