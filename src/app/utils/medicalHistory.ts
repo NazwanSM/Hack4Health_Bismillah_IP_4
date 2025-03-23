@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 import { 
     collection, addDoc, doc, updateDoc, deleteDoc, 
     getDocs, query, where, orderBy, serverTimestamp 
@@ -9,39 +6,35 @@ import {
   
   export interface MedicalHistory {
     id?: string;
-    userId: string; // Foreign key ke users
-    condition: string; // Nama penyakit/kondisi
+    userId: string;
+    condition: string;
     diagnosisDate: string;
-    endDate?: string; // Opsional, jika kondisi sudah sembuh
-    doctorName?: string;
-    hospitalName?: string;
-    symptoms: string[];
-    treatments?: string[];
-    medications?: string[];
-    notes?: string;
-    isActive: boolean; // Untuk soft delete
-    severity?: 'ringan' | 'sedang' | 'berat';
-    createdAt?: any;
-    updatedAt?: any;
+    severity: 'ringan' | 'sedang' | 'berat';
+    isActive: boolean;
+    updatedAt?: Date;
+    createdAt?: Date;
   }
   
   // Tambah riwayat penyakit baru
-  export const addMedicalHistory = async (
-    history: Omit<MedicalHistory, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<string> => {
-    try {
-      const docRef = await addDoc(collection(db, 'medicalHistory'), {
-        ...history,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
   
+  export const addMedicalHistory = async (medicalHistory: Omit<MedicalHistory, 'id' | 'createdAt'>) => {
+    try {
+      // Pastikan data memiliki format yang benar
+      const data = {
+        ...medicalHistory,
+        createdAt: new Date(),
+        updatedAt: new Date(), // Pastikan selalu ada updatedAt
+      };
+      
+      // Tambahkan ke Firestore
+      const docRef = await addDoc(collection(db, 'medicalHistory'), data);
+      console.log("Document written with ID: ", docRef.id);
       return docRef.id;
     } catch (error) {
-      console.error('Error adding medical history:', error);
+      console.error("Error adding document: ", error);
       throw error;
     }
-  };
+};
   
   // Dapatkan semua riwayat penyakit untuk user tertentu
   export const getUserMedicalHistory = async (userId: string): Promise<MedicalHistory[]> => {
