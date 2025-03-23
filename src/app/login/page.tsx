@@ -52,8 +52,13 @@ export const LoginPage: React.FC = () => {
                 // Use the login function from AuthProvider to set authentication state
                 login('firebase-managed-token', formattedUserData);
                 
-                // Redirect to dashboard/home
-                router.push('/');
+                localStorage.setItem('authToken', 'firebase-managed-token');
+                localStorage.setItem('userData', JSON.stringify(formattedUserData));
+                
+                // Redirect to homepage setelah delay singkat
+                setTimeout(() => {
+                    router.push('/');
+                }, 100);
             } else {
                 // This shouldn't happen normally, but just in case
                 setError('Data pengguna tidak ditemukan');

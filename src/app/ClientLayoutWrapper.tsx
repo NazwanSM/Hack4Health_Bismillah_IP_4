@@ -20,11 +20,11 @@ export default function ClientLayoutWrapper({
         isFirstTime: true,
         isLoggedIn: false
     });
+    const [redirectPath, setRedirectPath] = useState<string | null>(null);
 
+    // Handle initial state check
     useEffect(() => {
-        // Delay to ensure client-side rendering
         const timer = setTimeout(() => {
-            // Check user status when component loads
             const firstTimeStatus = checkFirstTimeUser();
             const loginStatus = checkUserLoggedIn();
 
@@ -34,26 +34,31 @@ export default function ClientLayoutWrapper({
             });
             setIsClientReady(true);
 
-            // Handle routing based on auth status
+            // Set redirect path if needed
             if (pathname === '/') {
                 if (firstTimeStatus) {
-                    // First time user, redirect to welcome page
-                    router.replace('/welcome');
+                    setRedirectPath('/welcome');
                 } else if (!loginStatus) {
-                    // Returning user but not logged in, redirect to login
-                    router.replace('/login');
+                    setRedirectPath('/login');
                 }
-                // If logged in, stay on home page
             }
         }, 0);
 
         return () => clearTimeout(timer);
-    }, [pathname, router]);
+    }, [pathname]);
 
-    // Determine if the current path is a public route that doesn't require auth
-    const isPublicRoute = ['/welcome', '/login', '/daftar', '/lupa-password'].includes(pathname);
+    // Handle redirect separately
+    useEffect(() => {
+        if (redirectPath) {
+            router.replace(redirectPath);
+            setRedirectPath(null);
+        }
+    }, [redirectPath, router]);
 
-    // Don't show any content until client-side code has run
+    // Determine public routes
+    const isPublicRoute = ['/welcome', '/login', '/register', '/lupa-password'].includes(pathname);
+
+    // Loading state
     if (!isClientReady) {
         return (
             <div className="flex h-screen w-full items-center justify-center bg-[#F5F5F5]">
@@ -62,15 +67,13 @@ export default function ClientLayoutWrapper({
         );
     }
 
-    // Allow access to public routes
-    // For protected routes, check if user is logged in
+    // Auth protection for non-public routes
     if (!isPublicRoute && !authStatus.isLoggedIn) {
-        // If we're on client-side, redirect
-        if (typeof window !== 'undefined') {
-            router.replace('/login');
+        // Set redirect and return loading
+        if (typeof window !== 'undefined' && !redirectPath) {
+            setRedirectPath('/login');
         }
         
-        // Show loading while redirecting
         return (
             <div className="flex h-screen w-full items-center justify-center bg-[#F5F5F5]">
                 <div className="text-center">Mengalihkan ke halaman login...</div>
@@ -80,7 +83,7 @@ export default function ClientLayoutWrapper({
 
     return (
         <AuthProvider>
-            <div className="max-w-md mx-auto bg-[#FFFDF5] min-h-screen relative">
+            <div className={`max-w-md mx-auto bg-[#FFFDF5] min-h-screen relative ${fonts}`}>
                 {children}
                 {!isPublicRoute && <OfflineWrapper />}
             </div>
