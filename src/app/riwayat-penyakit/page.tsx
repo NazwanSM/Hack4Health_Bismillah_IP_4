@@ -237,11 +237,7 @@ export default function MedicalHistoryPage() {
         {/* Back button positioned absolutely */}
         <button 
           onClick={() => router.back()} 
-<<<<<<< HEAD
-          className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10 cursor-pointer"
-=======
           className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10 transition-transform active:scale-90 hover:bg-gray-50"
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
         >
           <div className="w-8 h-8 flex items-center justify-center">
             <Image 
@@ -322,89 +318,6 @@ export default function MedicalHistoryPage() {
 
       {/* Add Medical History Modal - With Improved Backdrop */}
       {showAddModal && (
-<<<<<<< HEAD
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl w-[90%] max-w-sm shadow-2xl transform transition-all">
-            <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-lg font-bold font-['Nunito_Sans'] text-zinc-400">Tambah Riwayat Penyakit</h2>
-              <button 
-                onClick={() => setShowAddModal(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-              
-            <div className="p-4 max-h-[70vh] overflow-y-auto">
-              <form onSubmit={handleSubmit} className="space-y-3">
-                {/* Nama Penyakit */}
-                <div>
-                  <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-1 font-['Nunito_Sans']">
-                    Nama Penyakit/Kondisi *
-                  </label>
-                  <input
-                    id="condition"
-                    type="text"
-                    value={condition}
-                    onChange={(e) => setCondition(e.target.value)}
-                    placeholder="Contoh: Diabetes, Hipertensi, dsb."
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
-                    required
-                  />
-                </div>
-                
-                {/* Tanggal Diagnosis */}
-                <div>
-                  <label htmlFor="diagnosisDate" className="block text-sm font-medium text-gray-700 mb-1 font-['Nunito_Sans']">
-                    Tanggal Diagnosis *
-                  </label>
-                  <input
-                    id="diagnosisDate"
-                    type="date"
-                    value={diagnosisDate}
-                    onChange={(e) => setDiagnosisDate(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
-                    required
-                  />
-                </div>
-                
-                {/* Tingkat Keparahan */}
-                <div>
-                  <label htmlFor="severity" className="block text-sm font-medium text-gray-700 mb-1 font-['Nunito_Sans']">
-                    Tingkat Keparahan
-                  </label>
-                  <select
-                    id="severity"
-                    value={severity}
-                    onChange={(e) => setSeverity(e.target.value as 'ringan' | 'sedang' | 'berat')}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md font-['Nunito_Sans'] text-black"
-                  >
-                    <option value="ringan">Ringan</option>
-                    <option value="sedang">Sedang</option>
-                    <option value="berat">Berat</option>
-                  </select>
-                </div>
-                
-                <div className="pt-3 flex space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddModal(false)}
-                    className="flex-1 bg-gray-200 text-gray-800 py-2 text-sm rounded-md font-medium font-['Nunito_Sans']"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex-1 bg-[#364c84] text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400"
-                  >
-                    {isSubmitting ? 'Menyimpan...' : 'Simpan'}
-                  </button>
-                </div>
-              </form>
-=======
         <>
           {/* Backdrop overlay with reduced brightness */}
           <div 
@@ -495,7 +408,6 @@ export default function MedicalHistoryPage() {
                   </div>
                 </form>
               </div>
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
             </div>
           </div>
         </>
@@ -503,47 +415,6 @@ export default function MedicalHistoryPage() {
 
       {/* Detail Medical History Modal - With Improved Backdrop */}
       {showDetailModal && selectedHistory && (
-<<<<<<< HEAD
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl w-[90%] max-w-sm shadow-2xl transform transition-all">
-            <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-black font-bold font-['Nunito_Sans']">Detail Penyakit</h2>
-              <button 
-                onClick={() => {
-                  setShowDetailModal(false);
-                  setSelectedHistory(null);
-                  setShowConfirmDelete(false);
-                }}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="p-4 max-h-[70vh] overflow-y-auto">
-              {/* Main Info */}
-              <div className="flex">
-                <div className={`w-6 h-6 ${getSeverityColor(selectedHistory.severity)} rounded-full flex-shrink-0`}></div>
-                <div className="ml-3">
-                  <h2 className="text-base font-bold text-black font-['Nunito_Sans']">
-                    {selectedHistory.condition} ({new Date(selectedHistory.diagnosisDate).getFullYear()})
-                  </h2>
-                  
-                  <div className="mt-1 space-y-0.5 text-black">
-                    <p className="text-xs font-normal font-['Nunito_Sans']">
-                      Status: {getStatusText(selectedHistory)}
-                    </p>
-                    <p className="text-xs font-normal font-['Nunito_Sans']">
-                      Tanggal Diagnosis: {String(formatDate(selectedHistory.diagnosisDate))}
-                    </p>
-                    <p className="text-xs font-normal font-['Nunito_Sans']">
-                      Terakhir diperiksa: {formatDate(selectedHistory.updatedAt || selectedHistory.diagnosisDate)}
-                    </p>
-                  </div>
-                </div>
-=======
         <>
           {/* Backdrop overlay with reduced brightness */}
           <div 
@@ -572,7 +443,6 @@ export default function MedicalHistoryPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
               </div>
               
               <div className="p-4 max-h-[70vh] overflow-y-auto">
@@ -605,11 +475,7 @@ export default function MedicalHistoryPage() {
                   <button
                     onClick={handleMarkAsRecovered}
                     disabled={isSubmitting}
-<<<<<<< HEAD
-                    className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400 cursor-pointer"
-=======
                     className="w-full bg-green-600 text-white py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:bg-gray-400 transition-transform active:scale-95 hover:bg-green-700"
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
                   >
                     {isSubmitting ? 'Memproses...' : 'Tandai Sudah Sembuh'}
                   </button>
@@ -620,11 +486,7 @@ export default function MedicalHistoryPage() {
                   <button
                     onClick={() => setShowConfirmDelete(true)}
                     disabled={isSubmitting}
-<<<<<<< HEAD
-                    className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50 cursor-pointer"
-=======
                     className="w-full bg-white border border-red-500 text-red-500 py-2 text-sm rounded-md font-medium font-['Nunito_Sans'] disabled:opacity-50 transition-transform active:scale-95 hover:bg-red-50"
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
                   >
                     Hapus Riwayat
                   </button>
@@ -635,22 +497,14 @@ export default function MedicalHistoryPage() {
                       <button
                         onClick={handleDelete}
                         disabled={isSubmitting}
-<<<<<<< HEAD
-                        className="cursor-pointer flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400"
-=======
                         className="flex-1 bg-red-600 text-white py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:bg-gray-400 transition-transform active:scale-95"
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
                       >
                         Ya, Hapus
                       </button>
                       <button
                         onClick={() => setShowConfirmDelete(false)}
                         disabled={isSubmitting}
-<<<<<<< HEAD
-                        className="cursor-pointer flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50"
-=======
                         className="flex-1 bg-gray-200 text-gray-800 py-1.5 rounded-md font-medium text-xs font-['Nunito_Sans'] disabled:opacity-50 transition-transform active:scale-95"
->>>>>>> 448af3aed23cb0768ab00da53748c4a2513dc5e8
                       >
                         Batal
                       </button>
