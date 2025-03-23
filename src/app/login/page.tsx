@@ -27,16 +27,12 @@ export const LoginPage: React.FC = () => {
                 setIsLoading(false);
                 return;
             }
-
-            // Login with Firebase
             const userCredential = await loginUser(email, password);
             const user = userCredential.user;
-            
-            // Get additional user data from Firestore
             const userData = await getUserData(user.uid);
             
             if (userData) {
-                // Format user data
+                 
                 const formattedUserData = {
                     id: user.uid,
                     name: userData.name || 'Pengguna',
@@ -50,25 +46,25 @@ export const LoginPage: React.FC = () => {
                     isMedicalStaff: userData.isMedicalStaff || false
                 };
                 
-                // Use the login function from AuthProvider to set authentication state
+                 
                 login('firebase-managed-token', formattedUserData);
                 
                 localStorage.setItem('authToken', 'firebase-managed-token');
                 localStorage.setItem('userData', JSON.stringify(formattedUserData));
                 
-                // Redirect to homepage setelah delay singkat
+                 
                 setTimeout(() => {
                     router.push('/');
                 }, 100);
             } else {
-                // This shouldn't happen normally, but just in case
+                 
                 setError('Data pengguna tidak ditemukan');
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         } catch (err: any) {
             console.error('Login error:', err);
             
-            // Handle specific Firebase auth errors
+             
             if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
                 setError('Email atau kata sandi salah');
             } else if (err.code === 'auth/too-many-requests') {
