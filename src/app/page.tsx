@@ -41,12 +41,12 @@ export default function Home() {
       <div className="relative bg-[#E7F1A8] p-4 mx-4 rounded-lg">
         <div className="flex justify-between items-center">
           <div className="max-w-[60%]">
-            <h2 className="text-2xl font-bold mb-2 text-neutral-950">Darurat? Kami Siap Membantu!</h2>
-            <p className="text-sm text-neutral-950">
+            <h2 className="text-2xl font-bold mb-2 text-neutral-950 ">Darurat? Kami Siap Membantu!</h2>
+            <p className="text-sm text-neutral-950 ">
               Jangan panik! Gunakan tombol darurat untuk mendapatkan pertolongan cepat.
             </p>
           </div>
-          <div className="w-[120px] h-[120px] relative">
+          <div className="w-[120px] h-[120px] relative  rotate-5">
             <Image
               src="/ambulance.png"
               alt="Ambulance"
