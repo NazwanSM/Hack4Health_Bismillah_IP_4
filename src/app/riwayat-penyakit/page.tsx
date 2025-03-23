@@ -235,7 +235,7 @@ export default function MedicalHistoryPage() {
         {/* Back button positioned absolutely */}
         <button 
           onClick={() => router.back()} 
-          className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10"
+          className="p-1.5 bg-white rounded-lg shadow-md absolute left-6 z-10 transition-transform active:scale-90 hover:bg-gray-50"
         >
           <div className="w-8 h-8 flex items-center justify-center">
             <Image 
@@ -334,7 +334,7 @@ export default function MedicalHistoryPage() {
               <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Nama Penyakit */}
                 <div>
-                  <label htmlFor="condition" className="block text-sm font-medium text-black mb-1 font-['Nunito_Sans']">
+                  <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-1 font-['Nunito_Sans']">
                     Nama Penyakit/Kondisi *
                   </label>
                   <input
