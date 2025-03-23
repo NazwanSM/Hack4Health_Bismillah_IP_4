@@ -63,8 +63,10 @@ export default function Register() {
       
       localStorage.setItem('tempUser', JSON.stringify(tempUserData));
       
-      // Redirect to survey
-      router.push('/question');
+      setTimeout(() => {
+        window.location.href = '/question';
+      }, 100);
+
     } catch (err: unknown) {
       // Handle specific Firebase errors
       if (err instanceof Error && 'code' in err && err.code === 'auth/email-already-in-use') {
@@ -89,7 +91,7 @@ export default function Register() {
       {/* Back Button */}
       <div className="px-6 mt-2">
         <button 
-          className="w-11 h-11 flex items-center justify-center rounded-lg shadow-md bg-[#fffdf5]"
+          className="w-11 h-11 flex items-center justify-center rounded-lg shadow-md bg-[#fffdf5] cursor-pointer"
           onClick={() => router.back()}
         >
           <Image 
@@ -259,7 +261,7 @@ export default function Register() {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-[#364c84] text-white py-3 rounded-xl text-xl font-bold mt-4 disabled:bg-gray-400"
+            className="w-full bg-[#364c84] text-white py-3 rounded-xl text-xl font-bold mt-4 disabled:bg-gray-400 cursor-pointer"
             disabled={isLoading}
           >
             {isLoading ? 'Memproses...' : 'Daftar'}
@@ -269,7 +271,7 @@ export default function Register() {
         {/* Login Link */}
         <div className="text-center">
           <span className="text-[#3f5178] text-sm">Sudah punya akun? </span>
-          <Link href="/login" className="text-[#364c84] text-sm font-bold">
+          <Link href="/login" className="text-[#364c84] text-sm font-bold cursor-pointer">
             Masuk
           </Link>
         </div>

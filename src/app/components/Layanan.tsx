@@ -54,7 +54,7 @@ const Layanan = () => {
     ];
 
     return (
-        <div className="p-4 bg-white min-h-screen">
+        <div className="p-4 bg-[#fffdf5] min-h-screen">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
                 <div>
@@ -71,7 +71,7 @@ const Layanan = () => {
             </div>
             
             {/* Search Bar */}
-            <div className="flex items-center bg-gray-100 rounded-full p-3 mb-6">
+            <div className="flex items-center bg-[#fffdf5] rounded-full p-3 mb-6">
                 <FaSearch className="text-gray-400 mr-2" />
                 <input
                     type="text"
@@ -86,7 +86,7 @@ const Layanan = () => {
             {extendedHospitals.slice(0, 2).map((hospital) => (
                 <div
                     key={hospital.id}
-                    className="bg-white p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
+                    className="bg-[#fffdf5] p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
                     onClick={() => handleHospitalClick(hospital.id)}
                 >
                     <div className="w-1/3 mr-3">
@@ -130,7 +130,7 @@ const Layanan = () => {
             {extendedHospitals.slice(2, 4).map((hospital) => (
                 <div
                     key={hospital.id}
-                    className="bg-white p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
+                    className="bg-[#fffdf5] p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
                     onClick={() => handleHospitalClick(hospital.id)}
                 >
                     <div className="w-1/3 mr-3">

@@ -132,7 +132,7 @@ export default function OnboardingSurvey() {
 
   const completeRegistration = async () => {
     setIsLoading(true);
-    
+  
     try {
       if (userData) {
         // Format data for database update
@@ -147,18 +147,16 @@ export default function OnboardingSurvey() {
         // Update user profile in Firestore
         await updateUserProfile(userData.id, userProfileData);
         
-        // Get enhanced user data with survey answers
-        const enhancedUserData = {
-          ...userData,
-          ...userProfileData
-        };
-        
-        // Login the user with our context
-        login('firebase-managed-token', enhancedUserData);
+        // Hapus data sementara
         localStorage.removeItem('tempUser');
         
-        // Redirect to dashboard
-        router.push('/');
+        // Tampilkan pesan sukses dan redirect ke login
+        alert("Registrasi berhasil! Silakan login dengan akun Anda.");
+        
+        // Navigasi ke halaman login menggunakan window.location
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 100);
       } else {
         console.error('No user data available');
         router.push('/register');
@@ -166,7 +164,6 @@ export default function OnboardingSurvey() {
     } catch (error) {
       console.error("Error completing registration:", error);
       alert("Terjadi kesalahan saat menyimpan jawaban Anda. Silakan coba lagi.");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -234,7 +231,7 @@ export default function OnboardingSurvey() {
             {currentQuestionData.options?.map((option, index) => (
               <button
                 key={index}
-                className={`w-full flex items-center px-4 py-3 border rounded-xl transition-all duration-200 ${
+                className={`w-full flex items-center px-4 py-3 border rounded-xl transition-all duration-200 cursor-pointer ${
                   answers[currentQuestionData.fieldName] === option
                     ? 'border-[#364c84] bg-[#364c84]/10 text-[#364c84]'
                     : 'border-[#939698] text-[#939698]'
@@ -300,7 +297,7 @@ export default function OnboardingSurvey() {
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-auto">
           <button
-            className={`px-4 py-2 rounded-xl ${
+            className={`px-4 py-2 rounded-xl cursor-pointer ${
               currentQuestion > 0 
                 ? 'text-[#364c84] border border-[#364c84]' 
                 : 'text-gray-400 border border-gray-300'
@@ -312,7 +309,7 @@ export default function OnboardingSurvey() {
           </button>
           
           <button
-            className="px-6 py-2 bg-[#364c84] text-white rounded-xl disabled:bg-gray-400"
+            className="px-6 py-2 bg-[#364c84] text-white rounded-xl disabled:bg-gray-400 cursor-pointer"
             onClick={handleNext}
             disabled={isLoading}
           >

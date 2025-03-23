@@ -87,16 +87,17 @@ const AllHospitals = () => {
     }, {});
 
     return (
-        <div className="p-4 bg-white min-h-screen">
+        <div className="p-4 bg-[#fffdf5] min-h-screen">
             {/* Header with back button */}
-            <div className="flex items-center justify-center relative mb-4">
+            <div className="flex items-center justify-center relative mb-4 mt-10">
                 <button 
-                    className="absolute left-0 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center"
+                    className="absolute left-0 w-10 h-10 rounded-lg bg-[#fffdf5] shadow-md flex items-center justify-center cursor-pointer"
                     onClick={handleBackClick}
                 >
-                    <IoChevronBackOutline size={20} />
+                    <IoChevronBackOutline size={20}
+                    className="text-[#0a0a0a]"/>
                 </button>
-                <h1 className="text-xl font-bold">Rumah Sakit</h1>
+                <h1 className="text-xl font-bold text-[#0a0a0a]">Rumah Sakit</h1>
             </div>
             
             {/* Location */}
@@ -129,7 +130,7 @@ const AllHospitals = () => {
                     {hospitalList.map((hospital) => (
                         <div
                             key={hospital.id}
-                            className="bg-white p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
+                            className="bg-[#fffdf5] p-2 rounded-lg shadow-sm border border-gray-100 mb-4 cursor-pointer flex"
                             onClick={() => handleHospitalClick(hospital.id)}
                         >
                             <div className="w-1/3 mr-3">
@@ -144,10 +145,10 @@ const AllHospitals = () => {
                             <div className="w-2/3">
                                 {hospital.emergency && (
                                     <div className="flex items-center">
-                                        <div className="text-blue-800 mr-1">
-                                            <span className="text-blue-800 font-bold text-sm">+</span>
+                                        <div className="text-[#364C84] mr-1">
+                                            <span className="text-[#364C84] font-bold text-sm">+</span>
                                         </div>
-                                        <p className="text-blue-800 text-sm font-medium">Emergency Department</p>
+                                        <p className="text-[#364C84] text-sm font-medium">Emergency Department</p>
                                     </div>
                                 )}
                                 <h3 className="font-bold text-lg text-black">{hospital.name}</h3>

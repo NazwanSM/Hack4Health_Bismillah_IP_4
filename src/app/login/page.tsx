@@ -191,7 +191,7 @@ export const LoginPage: React.FC = () => {
                     {/* Social Login Buttons */}
                     <div className="flex space-x-4 justify-center">
                         <button 
-                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5]"
+                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5] cursor-pointer"
                             onClick={() => alert('Google login belum tersedia')}
                             disabled={isLoading}
                         >
@@ -203,7 +203,7 @@ export const LoginPage: React.FC = () => {
                             />
                         </button>
                         <button 
-                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5]"
+                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5] cursor-pointer"
                             onClick={() => alert('Facebook login belum tersedia')}
                             disabled={isLoading}
                         >

@@ -6502,6 +6502,7 @@ snapshots:
       next-pwa: 5.6.0(@babel/core@7.26.10)(next@15.2.3(@babel/core@7.26.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(webpack@5.98.0)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
+      react-icons: 5.5.0(react@19.0.0)
     transitivePeerDependencies:
       - '@babel/core'
       - '@opentelemetry/api'

@@ -6,7 +6,7 @@ const hospitals = [
         phone: "022-2552000",
         website: "rsborromeus.com",
         hours: "24 Jam",
-        image: "/hospital1.jpg",
+        image: "/icon/boromeus.png",
         emergency: true,
         location: {
             lat: -6.8939741974660285,
@@ -21,7 +21,7 @@ const hospitals = [
         phone: "022-2504983",
         website: "itb.ac.id/klinik",
         hours: "12.00-8.00 pm",
-        image: "/hospital2.jpg",
+        image: "/icon/klinik_utama.png",
         emergency: false,
         location: {
             lat: -6.8911,

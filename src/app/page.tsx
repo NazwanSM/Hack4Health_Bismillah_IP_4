@@ -1,16 +1,21 @@
 // src/app/page.tsx
 "use client";
 import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './components/Navbar';
 import hospitals from '../data/hospitals';
+import { useAuth } from './components/AuthProvider';
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 export default function Home() {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 3;
   const id = "1";
   const hospital = hospitals.find((h) => h.id === parseInt(id));
+  const { user } = useAuth();
 
   // Auto-rotate banner slides
   useEffect(() => {
@@ -21,17 +26,32 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Selamat pagi";
+    if (hour < 18) return "Selamat siang";
+    return "Selamat malam";
+  };
+
+  const handleHospitalClick = (id) => {
+    router.push(`/detail/${id}`);
+  };
+
+  const handleSeeAllClick = () => {
+    router.push('/all-hospitals');
+  };
+
   return (
     <div className="max-w-md mx-auto bg-[#fffdf5] min-h-screen pb-20">
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
         <div>
-          <p className="text-neutral-400 text-sm">Selamat pagi!</p>
-          <h2 className="font-bold text-black">Babu</h2>
+          <p className="text-neutral-400 text-sm">{getGreeting()}!</p>
+          <h2 className="font-bold text-black">{user?.name || 'Pengguna'}</h2>
         </div>
         <div className="w-10 h-10 rounded-full overflow-hidden">
           <Image 
-            src="/avatar.jpg" 
+            src="/icon/avatar.png" 
             alt="User profile"
             width={40}
             height={40}
@@ -51,7 +71,7 @@ export default function Home() {
           </div>
           <div className="w-[120px] h-[120px] relative  rotate-5">
             <Image
-              src="/ambulance.png"
+              src="/icon/Ambulance.svg"
               alt="Ambulance"
               width={120}
               height={120}
@@ -79,11 +99,19 @@ export default function Home() {
         <div className="grid grid-cols-3 gap-2">
           <Link href="/riwayat-penyakit" className="flex flex-col items-center">
             <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
-              <div className="relative w-8 h-8">
+              <div className="w-14 h-14 relative">
                 <Image
-                  src="/icons/medical-history.png"
+                  src="/icon/memo.svg"
                   alt="Riwayat Penyakit"
                   layout="fill"
+                  className='w-14 h-14 left-0 top-0 absolute'
+                />
+                <Image
+                  src="/icon/RedCross.svg"
+                  alt="Riwayat Penyakitt"
+                  width={6}
+                  height={6}
+                  className='w-3.5 h-3.5 left-[35.20px] top-[7.50px] absolute'
                 />
               </div>
             </div>
@@ -92,11 +120,20 @@ export default function Home() {
           
           <Link href="/pengingat-obat" className="flex flex-col items-center">
             <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
-              <div className="relative w-8 h-8">
+              <div className="w-14 h-14 relative">
                 <Image
-                  src="/icons/medication.png"
+                  src="/icon/Reminder.svg"
                   alt="Pengingat Obat"
-                  layout="fill"
+                  width={50}
+                  height={12}
+                  className="left-0 top-0 absolute"
+                />
+                <Image
+                  src="/icon/Medecine.svg"
+                  alt="Pengingat Obat"
+                  width={14}
+                  height={14}
+                  className='w-10 h-10 left-[21.43px] top-[21.43px] absolute'
                 />
               </div>
             </div>
@@ -105,11 +142,12 @@ export default function Home() {
           
           <Link href="/koleksi" className="flex flex-col items-center">
             <div className="bg-[#E7F1A8] w-16 h-16 rounded-lg flex items-center justify-center mb-2">
-              <div className="relative w-8 h-8">
+              <div className="relative">
                 <Image
-                  src="/icons/bookmark.png"
+                  src="/icon/Koleksi_Saya.svg"
                   alt="Koleksi Saya"
-                  layout="fill"
+                  width={38}
+                  height={12}
                 />
               </div>
             </div>
@@ -122,16 +160,21 @@ export default function Home() {
       <section className="mt-6 px-4">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-neutral-950">Rumah Sakit Terdekat</h3>
-          <Link href="/rumah-sakit" className="text-sm font-medium">
-            Semua &gt;
-          </Link>
+          <div 
+            className="flex items-center text-gray-800 cursor-pointer"
+            onClick={handleSeeAllClick}
+            >
+          <span className="mr-1">Semua</span>
+          <MdOutlineKeyboardArrowRight />
+          </div>
         </div>
 
-        <div className="bg-[#fffdf5] rounded-lg shadow p-2 border border-gray-100">
+        <div className="bg-[#fffdf5] rounded-lg shadow p-2 border border-gray-100 cursor-pointer flex"
+        onClick={() => handleHospitalClick(hospital?.id)}>
           <div className="flex gap-3">
-            <div className="w-20 h-20 rounded-md overflow-hidden">
+            <div className="w-20 h-24 rounded-md overflow-hidden">
               <Image
-                src="/hospital.jpg"
+                src="/icon/boromeus.png"
                 alt="Santo Borromeush Hospital"
                 width={80}
                 height={80}
