@@ -2,13 +2,9 @@
 "use client";
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-
-import EmergencyIcon from '@/public/icons/notifications_active.svg'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthProvider';
-import axios from 'axios'; 
 import { Hospital, staticHospitalData, calculateDistance } from '../data/staticHospitals';
-import PageTransition from './PageTransition';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -24,7 +20,6 @@ export default function Navbar() {
   const [apiCallSuccessful, setApiCallSuccessful] = useState(false);
   const [isUsingLocalData, setIsUsingLocalData] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
-
 
   // Fungsi untuk mendapatkan lokasi pengguna
   const getUserLocation = (): Promise<GeolocationPosition> => {
@@ -80,121 +75,115 @@ export default function Navbar() {
   };
 
   // Fungsi untuk mendapatkan data rumah sakit dari API
-  // Ganti hanya fungsi fetchHospitalsFromAPI dengan kode berikut:
+  const fetchHospitalsFromAPI = async (latitude: number, longitude: number): Promise<Hospital[]> => {
+    try {
+      setStatusMessage('Terhubung ke API rumah sakit...');
+      console.log('Memanggil API hospitals dengan parameter:', { latitude, longitude });
+      
+      // Gunakan API Route internal untuk mengatasi masalah CORS
+      const apiUrl = `/api/hospitals?latitude=${latitude}&longitude=${longitude}`;
+      console.log('API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl);
+      console.log('API Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API error response:', errorText);
+        throw new Error(`Gagal mengambil data rumah sakit: ${response.status} ${response.statusText}`);
+      }
 
-const fetchHospitalsFromAPI = async (latitude: number, longitude: number): Promise<Hospital[]> => {
-  try {
-    setStatusMessage('Terhubung ke API rumah sakit...');
-    console.log('Memanggil API hospitals dengan parameter:', { latitude, longitude });
-    
-    // Gunakan API Route internal untuk mengatasi masalah CORS
-    const apiUrl = `/api/hospitals?latitude=${latitude}&longitude=${longitude}`;
-    console.log('API URL:', apiUrl);
-    
-    const response = await fetch(apiUrl);
-    console.log('API Response status:', response.status);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API error response:', errorText);
-      throw new Error(`Gagal mengambil data rumah sakit: ${response.status} ${response.statusText}`);
-    }
+      const data = await response.json();
+      console.log('API Raw Response:', data);
+      
+      if (!data || !data.results || !Array.isArray(data.results)) {
+        console.error('Format API response tidak sesuai:', data);
+        throw new Error('Format data API tidak sesuai');
+      }
 
-    const data = await response.json();
-    console.log('API Raw Response:', data);
-    
-    if (!data || !data.results || !Array.isArray(data.results)) {
-      console.error('Format API response tidak sesuai:', data);
-      throw new Error('Format data API tidak sesuai');
-    }
+      if (data.results.length === 0) {
+        console.warn('API mengembalikan array kosong');
+        throw new Error('Tidak ditemukan rumah sakit di sekitar lokasi Anda');
+      }
 
-    if (data.results.length === 0) {
-      console.warn('API mengembalikan array kosong');
-      throw new Error('Tidak ditemukan rumah sakit di sekitar lokasi Anda');
-    }
+      // Validasi hasil untuk memastikan tidak ada data internasional yang lolos
+      const indonesianKeywords = ['rumah sakit', 'rs ', 'rsu ', 'rsud ', 'indonesia', 
+        'jakarta', 'bandung', 'surabaya', 'medan', 'makassar', 'jawa', 'sumatra', 
+        'kalimantan', 'sulawesi', 'papua', 'jl.', 'jalan'];
+      
+      const nonIndonesianKeywords = ['uk', 'united kingdom', 'england', 'london', 'manchester', 
+        'britain', 'british', 'nhs', 'royal'];
+      
+      // Transform data API menjadi format Hospital
+      const hospitals = data.results
+        .filter((place: any) => {
+          // Filter hasil yang jelas bukan dari Indonesia
+          const address = (place.vicinity || place.formatted_address || place.address || '').toLowerCase();
+          const name = (place.name || '').toLowerCase();
+          
+          const isNonIndonesian = nonIndonesianKeywords.some(keyword => 
+            address.includes(keyword) || name.includes(keyword)
+          );
+          
+          if (isNonIndonesian) {
+            console.warn(`Skipping non-Indonesian hospital: ${place.name} (${address})`);
+            return false;
+          }
+          
+          return true;
+        })
+        .map((place: any, index: number) => {
+          // Log data mentah untuk debugging
+          console.log(`Raw hospital data ${index}:`, {
+            name: place.name,
+            address: place.vicinity || place.formatted_address || place.address,
+            location: place.geometry?.location || { lat: place.latitude, lng: place.longitude }
+          });
+          
+          const hospital = {
+            id: place.id || index + 1,
+            name: place.name || `Rumah Sakit #${index + 1}`,
+            address: place.vicinity || place.formatted_address || place.address || 'Alamat tidak tersedia',
+            phone: place.formatted_phone_number || place.phone || '(Nomor tidak tersedia)',
+            emergencyContact: place.emergency_contact || place.formatted_phone_number || place.phone || '(Nomor darurat tidak tersedia)',
+            latitude: place.geometry?.location?.lat || place.latitude || latitude,
+            longitude: place.geometry?.location?.lng || place.longitude || longitude,
+            distance: place.distance || calculateDistance(latitude, longitude, 
+              place.geometry?.location?.lat || place.latitude, 
+              place.geometry?.location?.lng || place.longitude)
+          };
+          
+          return hospital;
+        });
 
-    // Validasi hasil untuk memastikan tidak ada data internasional yang lolos
-    const indonesianKeywords = ['rumah sakit', 'rs ', 'rsu ', 'rsud ', 'indonesia', 
-      'jakarta', 'bandung', 'surabaya', 'medan', 'makassar', 'jawa', 'sumatra', 
-      'kalimantan', 'sulawesi', 'papua', 'jl.', 'jalan'];
-    
-    const nonIndonesianKeywords = ['uk', 'united kingdom', 'england', 'london', 'manchester', 
-      'britain', 'british', 'nhs', 'royal'];
-    
-    // Transform data API menjadi format Hospital
-    const hospitals = data.results
-      .filter((place: any) => {
-        // Filter hasil yang jelas bukan dari Indonesia
-        const address = (place.vicinity || place.formatted_address || place.address || '').toLowerCase();
-        const name = (place.name || '').toLowerCase();
-
-        
-        const isNonIndonesian = nonIndonesianKeywords.some(keyword => 
-          address.includes(keyword) || name.includes(keyword)
-        );
-
-    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#fffdf5] border-t border-zinc-200">
-
-        
-        if (isNonIndonesian) {
-          console.warn(`Skipping non-Indonesian hospital: ${place.name} (${address})`);
+      console.log('Hospitals processed from API:', hospitals.length);
+      
+      // Sort berdasarkan jarak
+      const sortedHospitals = hospitals.sort((a, b) => (a.distance || 999) - (b.distance || 999));
+      
+      // Verifikasi akhir untuk filter jarak yang tidak masuk akal
+      const validatedHospitals = sortedHospitals.filter(hospital => {
+        if (hospital.distance && hospital.distance > 1000) {
+          console.warn(`Hospital with unreasonable distance removed: ${hospital.name} (${hospital.distance.toFixed(2)} km)`);
           return false;
         }
-        
         return true;
-      })
-      .map((place: any, index: number) => {
-        // Log data mentah untuk debugging
-        console.log(`Raw hospital data ${index}:`, {
-          name: place.name,
-          address: place.vicinity || place.formatted_address || place.address,
-          location: place.geometry?.location || { lat: place.latitude, lng: place.longitude }
-        });
-        
-        const hospital = {
-          id: place.id || index + 1,
-          name: place.name || `Rumah Sakit #${index + 1}`,
-          address: place.vicinity || place.formatted_address || place.address || 'Alamat tidak tersedia',
-          phone: place.formatted_phone_number || place.phone || '(Nomor tidak tersedia)',
-          emergencyContact: place.emergency_contact || place.formatted_phone_number || place.phone || '(Nomor darurat tidak tersedia)',
-          latitude: place.geometry?.location?.lat || place.latitude || latitude,
-          longitude: place.geometry?.location?.lng || place.longitude || longitude,
-          distance: place.distance || calculateDistance(latitude, longitude, 
-            place.geometry?.location?.lat || place.latitude, 
-            place.geometry?.location?.lng || place.longitude)
-        };
-        
-        return hospital;
       });
-
-    console.log('Hospitals processed from API:', hospitals.length);
-    
-    // Sort berdasarkan jarak
-    const sortedHospitals = hospitals.sort((a, b) => (a.distance || 999) - (b.distance || 999));
-    
-    // Verifikasi akhir untuk filter jarak yang tidak masuk akal
-    const validatedHospitals = sortedHospitals.filter(hospital => {
-      if (hospital.distance && hospital.distance > 1000) {
-        console.warn(`Hospital with unreasonable distance removed: ${hospital.name} (${hospital.distance.toFixed(2)} km)`);
-        return false;
+      
+      console.log('Top 3 nearest hospitals:', 
+        validatedHospitals.slice(0, 3).map(h => `${h.name} (${h.distance?.toFixed(2)} km)`));
+      
+      if (validatedHospitals.length === 0) {
+        console.warn('Tidak ada rumah sakit valid setelah validasi');
+        throw new Error('Tidak menemukan rumah sakit Indonesia terdekat');
       }
-      return true;
-    });
-    
-    console.log('Top 3 nearest hospitals:', 
-      validatedHospitals.slice(0, 3).map(h => `${h.name} (${h.distance?.toFixed(2)} km)`));
-    
-    if (validatedHospitals.length === 0) {
-      console.warn('Tidak ada rumah sakit valid setelah validasi');
-      throw new Error('Tidak menemukan rumah sakit Indonesia terdekat');
+      
+      return validatedHospitals;
+    } catch (error) {
+      console.error('Error in fetchHospitalsFromAPI:', error);
+      throw error;
     }
-    
-    return validatedHospitals;
-  } catch (error) {
-    console.error('Error in fetchHospitalsFromAPI:', error);
-    throw error;
-  }
-};
+  };
   
   // Fungsi untuk mendapatkan data rumah sakit terdekat
   const getNearbyHospitals = async () => {
@@ -427,54 +416,23 @@ const fetchHospitalsFromAPI = async (latitude: number, longitude: number): Promi
               src={pathname === '/' ? "/icon/home.svg" : "/icon/not-home.svg"}
               alt="home" 
             />
-
-            <Link href="/" className="flex flex-col items-center gap-1 w-12">
-            <img 
-                src={pathname === '/' ? "/icon/home.svg" : "/icon/not-home.svg"}
-                alt="home" 
-            />
-
             <span className={`text-xs font-semibold ${pathname === '/' ? 'text-black' : 'text-gray-500'}`}>
               Beranda
             </span>
-
           </Link>
 
           {/* Article */}
           <Link href="/artikel" className="flex flex-col items-center gap-1 w-14">
             <img 
-              src={pathname === '/article' ? "/icon/article.svg" : "/icon/not-article.svg"}
-              alt="home" 
+              src={pathname === '/artikel' ? "/icon/article.svg" : "/icon/not-article.svg"}
+              alt="article" 
             />
-
-            </Link>
-            <Link href="/artikel" className="flex flex-col items-center gap-1 w-14">
-            <img 
-                src={pathname === '/artikel' ? "/icon/article.svg" : "/icon/not-article.svg"}
-                alt="home" 
-            />
-
             <span className={`text-xs font-semibold ${pathname === '/artikel' ? 'text-black' : 'text-gray-500'}`}>
               Artikel
             </span>
+          </Link>
 
-            {/* Emergency */}
-
-            </Link>
-
-            <Link href="/darurat" className="flex flex-col items-center relative w-14">
-            <div className="w-12 h-12 bg-[#364C84] rounded-full flex items-center justify-center mb-1">
-                <div className="relative">
-                <img 
-                    src="/icon/notifications_active.svg" 
-                    alt="darurat" />
-                <span className="absolute top-[11px] left-[9.7px] text-[4px] font-bold text-[#364C84]">SOS</span>
-                </div>
-            </div>
-            <span className="text-xs font-semibold text-[#364C84]">
-                Darurat
-
-          {/* Emergency - Ganti dengan button */}
+          {/* Emergency */}
           <button
             onClick={handleEmergencyButton}
             className="flex flex-col items-center relative w-14 focus:outline-none"
@@ -489,44 +447,26 @@ const fetchHospitalsFromAPI = async (latitude: number, longitude: number): Promi
             </div>
             <span className="text-xs font-semibold text-[#364C84]">
               Darurat
-
             </span>
           </button>
-
 
           {/* Services */}
           <Link href="/layanan" className="flex flex-col items-center gap-1 w-14">
             <img 
               src={pathname === '/layanan' ? "/icon/layanan.svg" : "/icon/not-layanan.svg"}
-              alt="home" 
+              alt="layanan" 
             />
-
-            </Link>
-            <Link href="/layanan" className="flex flex-col items-center gap-1 w-14">
-            <img 
-                src={pathname === '/layanan' ? "/icon/layanan.svg" : "/icon/not-layanan.svg"}
-                alt="home" 
-            />
-
             <span className={`text-xs font-semibold ${pathname === '/layanan' ? 'text-black' : 'text-gray-500'}`}>
               Layanan
             </span>
-
           </Link>
+
           {/* Profile */}
           <Link href="/profil" className="flex flex-col items-center gap-1 w-14">
             <img 
               src={pathname === '/profil' ? "/icon/profile.svg" : "/icon/not-profile.svg"}
-              alt="home" 
+              alt="profile" 
             />
-
-            </Link>
-            <Link href="/profil" className="flex flex-col items-center gap-1 w-14">
-            <img 
-                src={pathname === '/profil' ? "/icon/profile.svg" : "/icon/not-profile.svg"}
-                alt="home" 
-            />
-
             <span className={`text-xs font-semibold ${pathname === '/profil' ? 'text-black' : 'text-gray-500'}`}>
               Profil
             </span>
