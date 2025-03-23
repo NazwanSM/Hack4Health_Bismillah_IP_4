@@ -9,6 +9,7 @@ import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { AiOutlineFileText } from 'react-icons/ai';
 import Navbar from '../components/Navbar';
 import PageTransition from '../components/PageTransition';
+import Link from 'next/link';
 
 interface UserData {
     name: string;
@@ -41,11 +42,13 @@ export default function ProfilePage() {
     }, [user]);
 
     const handleEditProfile = () => {
+
         router.push('/edit-profil');
     };
 
     const handleMedicalHistory = () => {
         router.push('/riwayat-penyakit');
+
     };
 
     const handleSettings = () => {
@@ -60,6 +63,7 @@ export default function ProfilePage() {
         console.error('Error logging out:', error);
         }
     };
+
 
     const navigateTo = (path: string) => {
         router.push(path);
@@ -111,22 +115,30 @@ export default function ProfilePage() {
             <span className="ml-4 text-lg text-[#0a0a0b]">Edit Profil</span>
             </button>
             
+
+            <Link href="/riwayat-penyakit">
+
             <button 
             onClick={handleMedicalHistory}
             className="flex items-center w-full py-4 cursor-pointer"
             >
+
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <AiOutlineFileText size={20} className="text-gray-700" />
             </div>
             <span className="ml-4 text-lg text-[#0a0a0b]">Riwayat Penyakit</span>
             </button>
-            
+
+            </Link>
+
             {/* Other Section */}
             <h2 className="text-xl font-bold mt-6 mb-4 text-[#0a0a0b]">Lainnya</h2>
             
             <button 
             onClick={handleSettings}
+
             className="flex items-center w-full py-4 border-b border-gray-200 cursor-pointer"
+
             >
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                 <FiSettings size={20} className="text-gray-700" />
@@ -136,7 +148,9 @@ export default function ProfilePage() {
             
             <button 
             onClick={handleLogout}
+
             className="flex items-center w-full py-4 text-red-500 cursor-pointer"
+
             >
             <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                 <FiLogOut size={20} className="text-red-500" />

@@ -14,14 +14,12 @@ import PageTransition from "./PageTransition";
 const DetailRumahSakit = ({ id }) => {
     const router = useRouter();
     
-    
     const hospital = hospitals.find((h) => h.id === parseInt(id));
     
     if (!hospital) {
         return <div>Hospital not found</div>;
     }
 
-    
     const mapUrl = `https://maps.google.com/maps?q=${hospital.location.lat},${hospital.location.lng}&z=15&output=embed`;
     
     return (
@@ -47,6 +45,7 @@ const DetailRumahSakit = ({ id }) => {
             </div>
         </div>
         <PageTransition>
+
         <div className="relative mt-5 mx-4 rounded-xl overflow-hidden shadow-lg">
             <div className="w-full h-56 relative">
             <iframe 
@@ -66,7 +65,9 @@ const DetailRumahSakit = ({ id }) => {
             </div>
         </div>
         
+
         <div className="p-4 flex-1 bg-[#fffdf5]">
+
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <IoLocationOutline size={24} />
@@ -75,6 +76,7 @@ const DetailRumahSakit = ({ id }) => {
                 {hospital.address}
             </p>
             </div>
+
             {hospital.emergency && (
             <div className="flex py-4 border-b border-gray-200">
                 <div className="text-[#364c84] mr-4 flex-shrink-0">
@@ -86,7 +88,6 @@ const DetailRumahSakit = ({ id }) => {
             </div>
             )}
             
-
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <FiPhone size={24} />
@@ -96,7 +97,6 @@ const DetailRumahSakit = ({ id }) => {
             </p>
             </div>
             
-
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <HiOutlineGlobeAlt size={24} />
