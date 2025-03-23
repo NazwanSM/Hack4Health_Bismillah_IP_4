@@ -2,7 +2,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito_Sans, Open_Sans } from 'next/font/google'
-import OfflineWrapper from './components/OfflineWrapper';
+import { AuthProvider } from './components/AuthProvider'
+import ClientLayoutWrapper from './ClientLayoutWrapper'
 
 // Konfigurasi Nunito Sans
 const nunitoSans = Nunito_Sans({
@@ -50,10 +51,11 @@ export default function RootLayout({
         <script src="/sw-register.js" defer></script>
       </head>
       <body className={nunitoSans.className}>
-        <div className="max-w-md mx-auto bg-[#FFFDF5] min-h-screen relative">
-          {children}
-          <OfflineWrapper />
-        </div>
+        <AuthProvider>
+          <ClientLayoutWrapper fonts={`${nunitoSans.variable} ${openSans.variable}`}>
+            {children}
+          </ClientLayoutWrapper>
+        </AuthProvider>
       </body>
     </html>
   )
