@@ -8,7 +8,7 @@ export default function Navbar() {
 const pathname = usePathname();
 
 return (
-    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-zinc-200">
+    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#fffdf5] border-t border-zinc-200">
         
         <div className="flex justify-between items-end px-6 pb-2">
             {/* Home */}
@@ -58,16 +58,16 @@ return (
 
             {/* Emergency */}
             <Link href="/darurat" className="flex flex-col items-center relative w-14">
-            <div className="w-12 h-12 bg-indigo-900 rounded-full flex items-center justify-center mb-1">
+            <div className="w-12 h-12 bg-[#364C84] rounded-full flex items-center justify-center mb-1">
                 <div className="relative">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
                     <path d="M10.827 16.379a6.082 6.082 0 0 1-8.618-8.618l3.098-3.098a2.233 2.233 0 0 1 3.156 0l.205.206a.5.5 0 0 1-.013.7l-2.14 2.14a1 1 0 0 0 1.415 1.415l2.14-2.14a.5.5 0 0 1 .7-.014l.205.206a2.233 2.233 0 0 1 0 3.156l-3.098 3.098z" />
                     <path d="M16.379 10.826a6.082 6.082 0 0 1-8.618 8.618l-3.098-3.098a2.233 2.233 0 0 1 0-3.156l.205-.205a.5.5 0 0 1 .7.013l2.14 2.14a1 1 0 0 0 1.415-1.414l-2.14-2.14a.5.5 0 0 1-.014-.7l.206-.206a2.233 2.233 0 0 1 3.156 0l3.098 3.098z" />
                 </svg>
-                <span className="absolute top-[9px] left-[8px] text-[4px] font-semibold text-indigo-900">SOS</span>
+                <span className="absolute top-[9px] left-[8px] text-[4px] font-semibold text-[#364C84]">SOS</span>
                 </div>
             </div>
-            <span className="text-xs font-semibold text-indigo-900">
+            <span className="text-xs font-semibold text-[#364C84]">
                 Darurat
             </span>
             </Link>
@@ -80,7 +80,7 @@ return (
                 height="24" 
                 viewBox="0 0 24 24" 
                 fill="none" 
-                stroke={pathname === '/layanan' ? 'currentColor' : '#6B7280'} 
+                stroke={pathname === '/layanan' ? 'currentColor' : '#9DA4A8'} 
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
