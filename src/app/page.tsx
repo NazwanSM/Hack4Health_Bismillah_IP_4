@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './components/Navbar';
 
+/*************  ✨ Codeium Command 🌟  *************/
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 3;
@@ -194,3 +195,4 @@ export default function Home() {
     </div>
   );
 }
+/******  fd92615c-d4b0-42bf-ae62-9c6f0b7ebfa2  *******/

@@ -107,6 +107,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(userData);
     setUserId(userData.id); // Set userId when logging in
     setIsLoggedIn(true);
+
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userData', JSON.stringify(userData));
   };
 
   const logout = async () => {

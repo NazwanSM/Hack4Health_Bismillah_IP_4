@@ -107,7 +107,7 @@ export default function Register() {
         {/* Title */}
         <div>
           <h1 className="text-[#364c84] text-4xl font-bold tracking-tight leading-tight">
-            Buat Akun <br />Baru
+            Mulai Bersama Medimerge!
           </h1>
           <p className="text-gray-600 mt-2">Lengkapi data diri Anda</p>
         </div>
