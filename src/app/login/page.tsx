@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../components/AuthProvider';
 import { loginUser, getUserData } from '../utils/authService';
+import PageTransition from '../components/PageTransition';
 
 export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -26,16 +27,12 @@ export const LoginPage: React.FC = () => {
                 setIsLoading(false);
                 return;
             }
-
-            // Login with Firebase
             const userCredential = await loginUser(email, password);
             const user = userCredential.user;
-            
-            // Get additional user data from Firestore
             const userData = await getUserData(user.uid);
             
             if (userData) {
-                // Format user data
+                 
                 const formattedUserData = {
                     id: user.uid,
                     name: userData.name || 'Pengguna',
@@ -49,25 +46,25 @@ export const LoginPage: React.FC = () => {
                     isMedicalStaff: userData.isMedicalStaff || false
                 };
                 
-                // Use the login function from AuthProvider to set authentication state
+                 
                 login('firebase-managed-token', formattedUserData);
                 
                 localStorage.setItem('authToken', 'firebase-managed-token');
                 localStorage.setItem('userData', JSON.stringify(formattedUserData));
                 
-                // Redirect to homepage setelah delay singkat
+                 
                 setTimeout(() => {
                     router.push('/');
                 }, 100);
             } else {
-                // This shouldn't happen normally, but just in case
+                 
                 setError('Data pengguna tidak ditemukan');
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         } catch (err: any) {
             console.error('Login error:', err);
             
-            // Handle specific Firebase auth errors
+             
             if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
                 setError('Email atau kata sandi salah');
             } else if (err.code === 'auth/too-many-requests') {
@@ -105,6 +102,7 @@ export const LoginPage: React.FC = () => {
                 </button>
             </div>
 
+            <PageTransition>
             {/* Main Content */}
             <div className="flex flex-col px-6 py-8 mt-4 space-y-9">
                 {/* Title */}
@@ -191,7 +189,7 @@ export const LoginPage: React.FC = () => {
                     {/* Social Login Buttons */}
                     <div className="flex space-x-4 justify-center">
                         <button 
-                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5]"
+                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5] cursor-pointer"
                             onClick={() => alert('Google login belum tersedia')}
                             disabled={isLoading}
                         >
@@ -203,7 +201,7 @@ export const LoginPage: React.FC = () => {
                             />
                         </button>
                         <button 
-                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5]"
+                            className="w-[75px] h-[52px] border border-[#e2e2e2] rounded-lg flex items-center justify-center shadow-md bg-[#fffdf5] cursor-pointer"
                             onClick={() => alert('Facebook login belum tersedia')}
                             disabled={isLoading}
                         >
@@ -237,6 +235,7 @@ export const LoginPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            </PageTransition>
         </div>
     );
 };

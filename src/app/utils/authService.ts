@@ -7,9 +7,8 @@ import {
 import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
-// Interface untuk data user
 export interface UserData {
-  id: string;  // Memastikan id adalah wajib
+  id: string; 
   name?: string;
   email?: string;
   phone?: string;
@@ -22,11 +21,9 @@ export interface UserData {
   createdAt?: string | object;
   updatedAt?: string | object;
   surveyAnswers?: { [key: number]: string };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Untuk field lain yang mungkin ditambahkan nanti
 }
 
-// Interface untuk data registrasi user
 export interface UserRegistrationData {
   name: string;
   phone: string;
@@ -38,7 +35,6 @@ export interface UserRegistrationData {
   isMedicalStaff?: boolean;
 }
 
-// Mendaftarkan pengguna baru
 export const registerUser = async (
   email: string, 
   password: string,
@@ -49,19 +45,16 @@ export const registerUser = async (
   }
 ): Promise<UserCredential> => {
   try {
-    // Buat akun autentikasi
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const { user } = userCredential;
     const userId = user.uid;
-    
-    // Simpan data pengguna dasar di Firestore dengan ID dari Firebase Auth
+
     await setDoc(doc(db, 'users', userId), {
-      id: userId, // Simpan ID di dalam dokumen juga untuk kemudahan akses
+      id: userId, 
       name: userData.name,
       email: user.email,
       phone: userData.phone,
       emergencyContact: userData.emergencyContact,
-      // Data lain akan diisi melalui halaman question
       birthdate: '',
       gender: '',
       NIK: '',
@@ -77,8 +70,6 @@ export const registerUser = async (
     throw error;
   }
 };
-
-// Login pengguna
 export const loginUser = async (email: string, password: string): Promise<UserCredential> => {
   try {
     return await signInWithEmailAndPassword(auth, email, password);
@@ -88,7 +79,6 @@ export const loginUser = async (email: string, password: string): Promise<UserCr
   }
 };
 
-// Logout pengguna
 export const signOut = async (): Promise<void> => {
   try {
     await firebaseSignOut(auth);
@@ -98,7 +88,6 @@ export const signOut = async (): Promise<void> => {
   }
 };
 
-// Dapatkan data user berdasarkan ID
 export const getUserData = async (userId: string): Promise<UserData | null> => {
   try {
     const docRef = doc(db, 'users', userId);
@@ -108,7 +97,7 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
       const data = docSnap.data();
       return {
         ...data,
-        id: userId // Pastikan ID selalu ada dan benar
+        id: userId
       } as UserData;
     } else {
       return null;
@@ -119,7 +108,6 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
   }
 };
 
-// Update profile pengguna
 export const updateUserProfile = async (userId: string, data: Partial<UserData>): Promise<void> => {
   try {
     const userRef = doc(db, 'users', userId);
@@ -133,14 +121,12 @@ export const updateUserProfile = async (userId: string, data: Partial<UserData>)
   }
 };
 
-// Cek apakah user perlu melengkapi data (untuk redirect ke question page jika perlu)
 export const isUserProfileComplete = async (userId: string): Promise<boolean> => {
   try {
     const userData = await getUserData(userId);
     
     if (!userData) return false;
-    
-    // Cek apakah field penting sudah terisi
+i
     return !!(
       userData.birthdate && 
       userData.gender && 

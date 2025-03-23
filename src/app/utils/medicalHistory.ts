@@ -15,18 +15,15 @@ import {
     createdAt?: Date;
   }
   
-  // Tambah riwayat penyakit baru
   
   export const addMedicalHistory = async (medicalHistory: Omit<MedicalHistory, 'id' | 'createdAt'>) => {
     try {
-      // Pastikan data memiliki format yang benar
       const data = {
         ...medicalHistory,
         createdAt: new Date(),
-        updatedAt: new Date(), // Pastikan selalu ada updatedAt
+        updatedAt: new Date(),
       };
-      
-      // Tambahkan ke Firestore
+
       const docRef = await addDoc(collection(db, 'medicalHistory'), data);
       console.log("Document written with ID: ", docRef.id);
       return docRef.id;
@@ -35,8 +32,7 @@ import {
       throw error;
     }
 };
-  
-  // Dapatkan semua riwayat penyakit untuk user tertentu
+
   export const getUserMedicalHistory = async (userId: string): Promise<MedicalHistory[]> => {
     try {
       const q = query(
@@ -62,8 +58,7 @@ import {
       throw error;
     }
   };
-  
-  // Update riwayat penyakit
+
   export const updateMedicalHistory = async (
     id: string, 
     data: Partial<MedicalHistory>
@@ -79,8 +74,7 @@ import {
       throw error;
     }
   };
-  
-  // Hapus riwayat penyakit (soft delete)
+
   export const deactivateMedicalHistory = async (id: string): Promise<void> => {
     try {
       const historyRef = doc(db, 'medicalHistory', id);
@@ -93,8 +87,7 @@ import {
       throw error;
     }
   };
-  
-  // Hard delete riwayat penyakit (jarang digunakan, lebih baik soft delete)
+
   export const deleteMedicalHistory = async (id: string): Promise<void> => {
     try {
       await deleteDoc(doc(db, 'medicalHistory', id));

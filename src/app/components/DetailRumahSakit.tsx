@@ -14,20 +14,17 @@ import PageTransition from "./PageTransition";
 const DetailRumahSakit = ({ id }) => {
     const router = useRouter();
     
-    // Find the hospital by id from the data
     const hospital = hospitals.find((h) => h.id === parseInt(id));
     
     if (!hospital) {
         return <div>Hospital not found</div>;
     }
 
-    // Generate Google Maps URL with coordinates
     const mapUrl = `https://maps.google.com/maps?q=${hospital.location.lat},${hospital.location.lng}&z=15&output=embed`;
     
     return (
         <div className="flex flex-col min-h-screen bg-[#fffdf5]">
         
-        {/* Header with back button and hospital name */}
         <div className="bg-[#364c84] p-4 pb-6 text-[#fffdf5] relative rounded-b-3xl max-h-[200px]">
             <div className="mb-6">
             <button 
@@ -48,7 +45,7 @@ const DetailRumahSakit = ({ id }) => {
             </div>
         </div>
         <PageTransition>
-        {/* Map Section with curved top edges to overlap header */}
+
         <div className="relative mt-5 mx-4 rounded-xl overflow-hidden shadow-lg">
             <div className="w-full h-56 relative">
             <iframe 
@@ -68,9 +65,9 @@ const DetailRumahSakit = ({ id }) => {
             </div>
         </div>
         
-        {/* Hospital details */}
+
         <div className="p-4 flex-1 bg-[#fffdf5]">
-            {/* Address */}
+
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <IoLocationOutline size={24} />
@@ -79,8 +76,7 @@ const DetailRumahSakit = ({ id }) => {
                 {hospital.address}
             </p>
             </div>
-            
-            {/* Emergency Department */}
+
             {hospital.emergency && (
             <div className="flex py-4 border-b border-gray-200">
                 <div className="text-[#364c84] mr-4 flex-shrink-0">
@@ -92,7 +88,6 @@ const DetailRumahSakit = ({ id }) => {
             </div>
             )}
             
-            {/* Phone */}
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <FiPhone size={24} />
@@ -102,7 +97,6 @@ const DetailRumahSakit = ({ id }) => {
             </p>
             </div>
             
-            {/* Website */}
             <div className="flex py-4 border-b border-gray-200">
             <div className="text-[#364c84] mr-4 flex-shrink-0">
                 <HiOutlineGlobeAlt size={24} />

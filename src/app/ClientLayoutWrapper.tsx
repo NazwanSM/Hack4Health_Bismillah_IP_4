@@ -22,7 +22,6 @@ export default function ClientLayoutWrapper({
     });
     const [redirectPath, setRedirectPath] = useState<string | null>(null);
 
-    // Handle initial state check
     useEffect(() => {
         const timer = setTimeout(() => {
             const firstTimeStatus = checkFirstTimeUser();
@@ -34,7 +33,6 @@ export default function ClientLayoutWrapper({
             });
             setIsClientReady(true);
 
-            // Set redirect path if needed
             if (pathname === '/') {
                 if (firstTimeStatus) {
                     setRedirectPath('/welcome');
@@ -47,7 +45,6 @@ export default function ClientLayoutWrapper({
         return () => clearTimeout(timer);
     }, [pathname]);
 
-    // Handle redirect separately
     useEffect(() => {
         if (redirectPath) {
             router.replace(redirectPath);
@@ -55,10 +52,8 @@ export default function ClientLayoutWrapper({
         }
     }, [redirectPath, router]);
 
-    // Determine public routes
     const isPublicRoute = ['/welcome', '/login', '/register', '/lupa-password'].includes(pathname);
 
-    // Loading state
     if (!isClientReady) {
         return (
             <div className="flex h-screen w-full items-center justify-center bg-[#F5F5F5]">
@@ -67,9 +62,7 @@ export default function ClientLayoutWrapper({
         );
     }
 
-    // Auth protection for non-public routes
     if (!isPublicRoute && !authStatus.isLoggedIn) {
-        // Set redirect and return loading
         if (typeof window !== 'undefined' && !redirectPath) {
             setRedirectPath('/login');
         }
